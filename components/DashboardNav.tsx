@@ -3,6 +3,7 @@
 import { useState } from 'react'
 import { useRouter, usePathname } from 'next/navigation'
 import Link from 'next/link'
+import Image from 'next/image'
 import { createClient } from '@/lib/supabase/client'
 import {
   Drawer,
@@ -12,9 +13,7 @@ import {
   ListItemIcon,
   ListItemText,
   Box,
-  Typography,
   Divider,
-  IconButton,
 } from '@mui/material'
 import {
   Dashboard as DashboardIcon,
@@ -25,12 +24,14 @@ import {
 import type { User } from '@supabase/supabase-js'
 
 const drawerWidth = 240
+const drawerWidthCollapsed = 64
 
 interface DashboardNavProps {
   user: User
+  open: boolean
 }
 
-export default function DashboardNav({ user }: DashboardNavProps) {
+export default function DashboardNav({ user, open }: DashboardNavProps) {
   const router = useRouter()
   const pathname = usePathname()
   const [loading, setLoading] = useState(false)
@@ -53,22 +54,28 @@ export default function DashboardNav({ user }: DashboardNavProps) {
     <Drawer
       variant="permanent"
       sx={{
-        width: drawerWidth,
+        width: open ? drawerWidth : drawerWidthCollapsed,
         flexShrink: 0,
+        transition: 'width 0.3s ease',
         '& .MuiDrawer-paper': {
-          width: drawerWidth,
+          width: open ? drawerWidth : drawerWidthCollapsed,
           boxSizing: 'border-box',
           backgroundColor: 'background.paper',
+          transition: 'width 0.3s ease',
+          overflowX: 'hidden',
         },
       }}
     >
-      <Box sx={{ p: 3 }}>
-        <Typography variant="h5" fontWeight="bold" color="primary">
-          YRM
-        </Typography>
-        <Typography variant="caption" color="text.secondary">
-          {user.email}
-        </Typography>
+      <Box sx={{ p: 2, display: 'flex', alignItems: 'center', justifyContent: 'center', height: 64 }}>
+        {open && (
+          <Image
+            src="/logo.svg"
+            alt="YRM Logo"
+            width={120}
+            height={22}
+            priority
+          />
+        )}
       </Box>
       <Divider />
       <List>
@@ -81,12 +88,17 @@ export default function DashboardNav({ user }: DashboardNavProps) {
               sx={{
                 textDecoration: 'none',
                 color: 'inherit',
+                justifyContent: open ? 'initial' : 'center',
               }}
             >
-              <ListItemIcon sx={{ color: pathname === item.path ? 'primary.main' : 'inherit' }}>
+              <ListItemIcon sx={{
+                color: pathname === item.path ? 'primary.main' : 'inherit',
+                minWidth: open ? 56 : 'auto',
+                justifyContent: 'center',
+              }}>
                 {item.icon}
               </ListItemIcon>
-              <ListItemText primary={item.text} />
+              {open && <ListItemText primary={item.text} />}
             </ListItemButton>
           </ListItem>
         ))}
@@ -94,11 +106,20 @@ export default function DashboardNav({ user }: DashboardNavProps) {
       <Divider />
       <List sx={{ mt: 'auto' }}>
         <ListItem disablePadding>
-          <ListItemButton onClick={handleLogout} disabled={loading}>
-            <ListItemIcon>
+          <ListItemButton
+            onClick={handleLogout}
+            disabled={loading}
+            sx={{
+              justifyContent: open ? 'initial' : 'center',
+            }}
+          >
+            <ListItemIcon sx={{
+              minWidth: open ? 56 : 'auto',
+              justifyContent: 'center',
+            }}>
               <LogoutIcon />
             </ListItemIcon>
-            <ListItemText primary={loading ? 'Logging out...' : 'Logout'} />
+            {open && <ListItemText primary={loading ? 'Logging out...' : 'Logout'} />}
           </ListItemButton>
         </ListItem>
       </List>

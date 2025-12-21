@@ -1,7 +1,6 @@
 import { redirect } from 'next/navigation'
 import { createClient } from '@/lib/supabase/server'
-import DashboardNav from '@/components/DashboardNav'
-import { Box } from '@mui/material'
+import DashboardLayoutClient from '@/components/DashboardLayoutClient'
 
 export default async function DashboardLayout({
   children,
@@ -18,19 +17,5 @@ export default async function DashboardLayout({
     redirect('/auth')
   }
 
-  return (
-    <Box sx={{ display: 'flex', minHeight: '100vh' }}>
-      <DashboardNav user={user} />
-      <Box
-        component="main"
-        sx={{
-          flexGrow: 1,
-          p: 3,
-          backgroundColor: 'background.default',
-        }}
-      >
-        {children}
-      </Box>
-    </Box>
-  )
+  return <DashboardLayoutClient user={user}>{children}</DashboardLayoutClient>
 }
