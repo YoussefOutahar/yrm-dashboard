@@ -6,10 +6,6 @@ import ActivityLog from '@/components/ActivityLog'
 export default function DashboardPage() {
   return (
     <Box>
-      <Typography variant="h4" fontWeight="bold" sx={{ mb: 4 }}>
-        Dashboard
-      </Typography>
-
       <Grid container spacing={3}>
         {/* Price Chart - Full width */}
         <Grid size={{ xs: 12 }}>

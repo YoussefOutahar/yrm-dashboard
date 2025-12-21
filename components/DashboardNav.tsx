@@ -60,14 +60,27 @@ export default function DashboardNav({ user, open }: DashboardNavProps) {
         '& .MuiDrawer-paper': {
           width: open ? drawerWidth : drawerWidthCollapsed,
           boxSizing: 'border-box',
-          backgroundColor: 'background.paper',
+          backgroundColor: 'transparent',
+          border: 'none',
           transition: 'width 0.3s ease',
           overflowX: 'hidden',
         },
       }}
     >
-      <Box sx={{ p: 2, display: 'flex', alignItems: 'center', justifyContent: 'center', height: 64 }}>
-        {open && (
+      <Box
+        sx={{
+          height: 'calc(100vh - 16px)',
+          my: 1,
+          ml: 1,
+          mr: 0.5,
+          backgroundColor: 'rgba(26, 26, 26, 0.9)',
+          borderRadius: '16px',
+          display: 'flex',
+          flexDirection: 'column',
+        }}
+      >
+      <Box sx={{ py: 2, px: 1, display: 'flex', alignItems: 'center', justifyContent: 'center', minHeight: 64 }}>
+        {open ? (
           <Image
             src="/logo.svg"
             alt="YRM Logo"
@@ -75,10 +88,18 @@ export default function DashboardNav({ user, open }: DashboardNavProps) {
             height={22}
             priority
           />
+        ) : (
+          <Image
+            src="/logo-small.svg"
+            alt="YRM"
+            width={32}
+            height={22}
+            priority
+          />
         )}
       </Box>
-      <Divider />
-      <List>
+      <Divider sx={{ borderColor: 'rgba(255, 255, 255, 0.1)', mx: 1 }} />
+      <List sx={{ px: 1, py: 1 }}>
         {menuItems.map((item) => (
           <ListItem key={item.text} disablePadding>
             <ListItemButton
@@ -89,6 +110,17 @@ export default function DashboardNav({ user, open }: DashboardNavProps) {
                 textDecoration: 'none',
                 color: 'inherit',
                 justifyContent: open ? 'initial' : 'center',
+                borderRadius: '12px',
+                mb: 0.5,
+                '&:hover': {
+                  backgroundColor: 'rgba(255, 255, 255, 0.05)',
+                },
+                '&.Mui-selected': {
+                  backgroundColor: 'rgba(0, 255, 136, 0.1)',
+                  '&:hover': {
+                    backgroundColor: 'rgba(0, 255, 136, 0.15)',
+                  },
+                },
               }}
             >
               <ListItemIcon sx={{
@@ -103,14 +135,18 @@ export default function DashboardNav({ user, open }: DashboardNavProps) {
           </ListItem>
         ))}
       </List>
-      <Divider />
-      <List sx={{ mt: 'auto' }}>
+      <Divider sx={{ borderColor: 'rgba(255, 255, 255, 0.1)', mx: 1 }} />
+      <List sx={{ mt: 'auto', px: 1, py: 1 }}>
         <ListItem disablePadding>
           <ListItemButton
             onClick={handleLogout}
             disabled={loading}
             sx={{
               justifyContent: open ? 'initial' : 'center',
+              borderRadius: '12px',
+              '&:hover': {
+                backgroundColor: 'rgba(255, 255, 255, 0.05)',
+              },
             }}
           >
             <ListItemIcon sx={{
@@ -123,6 +159,7 @@ export default function DashboardNav({ user, open }: DashboardNavProps) {
           </ListItemButton>
         </ListItem>
       </List>
+      </Box>
     </Drawer>
   )
 }

@@ -102,10 +102,6 @@ export default function AdminPage() {
 
   return (
     <Box>
-      <Typography variant="h4" fontWeight="bold" sx={{ mb: 4 }}>
-        Admin View
-      </Typography>
-
       <Card>
         <CardContent>
           <Typography variant="h6" fontWeight="bold" sx={{ mb: 3 }}>

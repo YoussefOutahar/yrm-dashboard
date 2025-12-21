@@ -65,10 +65,6 @@ export default function ProfilePage() {
 
   return (
     <Box>
-      <Typography variant="h4" fontWeight="bold" sx={{ mb: 4 }}>
-        Profile Settings
-      </Typography>
-
       <Card sx={{ maxWidth: 800 }}>
         <CardContent>
           <Typography variant="h6" fontWeight="bold" sx={{ mb: 3 }}>

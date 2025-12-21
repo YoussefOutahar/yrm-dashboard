@@ -40,31 +40,38 @@ export default function DashboardLayoutClient({ user, children }: DashboardLayou
           flexDirection: 'column',
         }}
       >
-        <AppBar
-          position="sticky"
-          elevation={0}
-          sx={{
-            transition: 'all 0.3s ease',
-            backgroundColor: 'background.paper',
-            borderBottom: '1px solid',
-            borderColor: 'divider',
-          }}
-        >
-          <Toolbar>
-            <IconButton
-              color="inherit"
-              aria-label="toggle drawer"
-              onClick={handleDrawerToggle}
-              edge="start"
-              sx={{ mr: 2 }}
-            >
-              <MenuIcon />
-            </IconButton>
-            <Typography variant="h6" noWrap component="div" color="text.primary">
-              {getPageTitle(pathname)}
-            </Typography>
-          </Toolbar>
-        </AppBar>
+        <Box sx={{ pt: 1, pr: 1, pb: 0, pl: 0.5 }}>
+          <AppBar
+            position="static"
+            elevation={0}
+            sx={{
+              transition: 'all 0.3s ease',
+              backgroundColor: 'rgba(26, 26, 26, 0.9)',
+              borderRadius: '16px',
+            }}
+          >
+            <Toolbar>
+              <IconButton
+                color="inherit"
+                aria-label="toggle drawer"
+                onClick={handleDrawerToggle}
+                edge="start"
+                sx={{
+                  mr: 2,
+                  borderRadius: '12px',
+                  '&:hover': {
+                    backgroundColor: 'rgba(255, 255, 255, 0.05)',
+                  },
+                }}
+              >
+                <MenuIcon />
+              </IconButton>
+              <Typography variant="h6" noWrap component="div" color="text.primary">
+                {getPageTitle(pathname)}
+              </Typography>
+            </Toolbar>
+          </AppBar>
+        </Box>
         <Box
           component="main"
           sx={{

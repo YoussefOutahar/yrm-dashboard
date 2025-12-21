@@ -4,20 +4,14 @@ import { useState } from 'react'
 import { useRouter } from 'next/navigation'
 import { createClient } from '@/lib/supabase/client'
 import { useActivityLog } from '@/contexts/ActivityLogContext'
-import {
-  Box,
-  Container,
-  Paper,
-  TextField,
-  Button,
-  Typography,
-  Alert,
-  Tabs,
-  Tab,
-} from '@mui/material'
+import { Box, Container, Typography, Alert, useMediaQuery } from '@mui/material'
+import { motion, AnimatePresence } from 'framer-motion'
+import GlowCard from '@/components/auth/GlowCard'
+import AnimatedInput from '@/components/auth/AnimatedInput'
+import AnimatedButton from '@/components/auth/AnimatedButton'
 
 export default function AuthPage() {
-  const [activeTab, setActiveTab] = useState(0)
+  const [isSignUp, setIsSignUp] = useState(false)
   const [email, setEmail] = useState('')
   const [password, setPassword] = useState('')
   const [confirmPassword, setConfirmPassword] = useState('')
@@ -26,9 +20,10 @@ export default function AuthPage() {
   const [success, setSuccess] = useState(false)
   const router = useRouter()
   const { addActivity } = useActivityLog()
+  const isMobile = useMediaQuery('(max-width: 640px)')
 
-  const handleTabChange = (_: React.SyntheticEvent, newValue: number) => {
-    setActiveTab(newValue)
+  const handleModeToggle = () => {
+    setIsSignUp(!isSignUp)
     setError('')
     setSuccess(false)
     setEmail('')
@@ -93,13 +88,33 @@ export default function AuthPage() {
       setSuccess(true)
       setLoading(false)
       setTimeout(() => {
-        setActiveTab(0)
+        setIsSignUp(false)
         setSuccess(false)
         setEmail('')
         setPassword('')
         setConfirmPassword('')
       }, 2000)
     }
+  }
+
+  const containerVariants = {
+    hidden: { opacity: 0 },
+    visible: {
+      opacity: 1,
+      transition: {
+        staggerChildren: 0.15,
+        delayChildren: 0.4,
+      },
+    },
+  }
+
+  const itemVariants = {
+    hidden: { opacity: 0, y: 20 },
+    visible: {
+      opacity: 1,
+      y: 0,
+      transition: { duration: 0.4 },
+    },
   }
 
   return (
@@ -109,122 +124,169 @@ export default function AuthPage() {
         display: 'flex',
         alignItems: 'center',
         justifyContent: 'center',
-        background: 'linear-gradient(135deg, #000000 0%, #0a0a0a 50%, #001a00 100%)',
+        background: '#000000',
+        position: 'relative',
+        overflow: 'hidden',
       }}
     >
-      <Container maxWidth="sm">
-        <Paper
-          elevation={4}
-          sx={{
-            p: 4,
-            display: 'flex',
-            flexDirection: 'column',
-            gap: 3,
-            border: '1px solid #1a1a1a',
-            '&:hover': {
-              borderColor: 'rgba(0, 255, 0, 0.2)',
-            },
-          }}
+      <Container maxWidth="sm" sx={{ position: 'relative', zIndex: 2 }}>
+        <motion.div
+          variants={containerVariants}
+          initial="hidden"
+          animate="visible"
         >
-          <Typography variant="h4" component="h1" textAlign="center" fontWeight="bold">
-            YRM Dashboard
-          </Typography>
-
-          <Tabs
-            value={activeTab}
-            onChange={handleTabChange}
-            variant="fullWidth"
-            sx={{
-              '& .MuiTab-root': {
-                color: 'text.secondary',
-              },
-              '& .Mui-selected': {
-                color: 'primary.main',
-              },
-            }}
-          >
-            <Tab label="Sign In" />
-            <Tab label="Sign Up" />
-          </Tabs>
-
-          {error && <Alert severity="error">{error}</Alert>}
-          {success && (
-            <Alert severity="success">
-              Account created successfully! You can now sign in.
-            </Alert>
-          )}
-
-          {activeTab === 0 ? (
-            <Box component="form" onSubmit={handleLogin} sx={{ display: 'flex', flexDirection: 'column', gap: 2 }}>
-              <TextField
-                label="Email"
-                type="email"
-                value={email}
-                onChange={(e) => setEmail(e.target.value)}
-                required
-                fullWidth
-                autoComplete="email"
-              />
-              <TextField
-                label="Password"
-                type="password"
-                value={password}
-                onChange={(e) => setPassword(e.target.value)}
-                required
-                fullWidth
-                autoComplete="current-password"
-              />
-              <Button
-                type="submit"
-                variant="contained"
-                size="large"
-                disabled={loading}
-                fullWidth
+          <GlowCard enableTilt={!isMobile}>
+            <motion.div variants={itemVariants}>
+              <Box
+                sx={{
+                  display: 'flex',
+                  justifyContent: 'center',
+                  mb: 3,
+                }}
               >
-                {loading ? 'Signing in...' : 'Sign In'}
-              </Button>
-            </Box>
-          ) : (
-            <Box component="form" onSubmit={handleSignup} sx={{ display: 'flex', flexDirection: 'column', gap: 2 }}>
-              <TextField
-                label="Email"
-                type="email"
-                value={email}
-                onChange={(e) => setEmail(e.target.value)}
-                required
-                fullWidth
-                autoComplete="email"
-              />
-              <TextField
-                label="Password"
-                type="password"
-                value={password}
-                onChange={(e) => setPassword(e.target.value)}
-                required
-                fullWidth
-                autoComplete="new-password"
-              />
-              <TextField
-                label="Confirm Password"
-                type="password"
-                value={confirmPassword}
-                onChange={(e) => setConfirmPassword(e.target.value)}
-                required
-                fullWidth
-                autoComplete="new-password"
-              />
-              <Button
-                type="submit"
-                variant="contained"
-                size="large"
-                disabled={loading || success}
-                fullWidth
+                <img
+                  src="/logo.svg"
+                  alt="YRM Dashboard"
+                  style={{
+                    height: '40px',
+                    width: 'auto',
+                  }}
+                />
+              </Box>
+            </motion.div>
+
+            <motion.div variants={itemVariants}>
+              <AnimatePresence mode="wait">
+                {error && (
+                  <motion.div
+                    initial={{ opacity: 0, y: -10 }}
+                    animate={{ opacity: 1, y: 0 }}
+                    exit={{ opacity: 0, y: -10 }}
+                    transition={{ duration: 0.2 }}
+                  >
+                    <Alert severity="error" sx={{ mb: 2 }}>
+                      {error}
+                    </Alert>
+                  </motion.div>
+                )}
+                {success && (
+                  <motion.div
+                    initial={{ opacity: 0, y: -10 }}
+                    animate={{ opacity: 1, y: 0 }}
+                    exit={{ opacity: 0, y: -10 }}
+                    transition={{ duration: 0.2 }}
+                  >
+                    <Alert severity="success" sx={{ mb: 2 }}>
+                      Account created successfully! You can now sign in.
+                    </Alert>
+                  </motion.div>
+                )}
+              </AnimatePresence>
+            </motion.div>
+
+            <AnimatePresence mode="wait">
+              <motion.div
+                key={isSignUp ? 'signup' : 'signin'}
+                initial={{ opacity: 0, x: 50 }}
+                animate={{ opacity: 1, x: 0 }}
+                exit={{ opacity: 0, x: -50 }}
+                transition={{ duration: 0.3 }}
               >
-                {loading ? 'Creating account...' : 'Sign Up'}
-              </Button>
-            </Box>
-          )}
-        </Paper>
+                <Typography
+                  variant="h5"
+                  textAlign="center"
+                  mb={3}
+                  sx={{ color: '#00ff00', fontWeight: 600 }}
+                >
+                  {isSignUp ? 'Create Account' : 'Welcome Back'}
+                </Typography>
+
+                <Box
+                  component="form"
+                  onSubmit={isSignUp ? handleSignup : handleLogin}
+                  sx={{ display: 'flex', flexDirection: 'column' }}
+                >
+                  <AnimatedInput
+                    label="Email"
+                    type="email"
+                    value={email}
+                    onChange={(e) => setEmail(e.target.value)}
+                    required
+                    autoComplete="email"
+                  />
+
+                  <AnimatedInput
+                    label="Password"
+                    type="password"
+                    value={password}
+                    onChange={(e) => setPassword(e.target.value)}
+                    required
+                    autoComplete={isSignUp ? 'new-password' : 'current-password'}
+                    error={!!error && !isSignUp}
+                  />
+
+                  {isSignUp && (
+                    <motion.div
+                      initial={{ opacity: 0, height: 0 }}
+                      animate={{ opacity: 1, height: 'auto' }}
+                      exit={{ opacity: 0, height: 0 }}
+                      transition={{ duration: 0.3 }}
+                    >
+                      <AnimatedInput
+                        label="Confirm Password"
+                        type="password"
+                        value={confirmPassword}
+                        onChange={(e) => setConfirmPassword(e.target.value)}
+                        required
+                        autoComplete="new-password"
+                      />
+                    </motion.div>
+                  )}
+
+                  <AnimatedButton
+                    type="submit"
+                    loading={loading}
+                    success={success && isSignUp}
+                    fullWidth
+                  >
+                    {isSignUp ? 'Sign Up' : 'Sign In'}
+                  </AnimatedButton>
+
+                  <Box textAlign="center" mt={3}>
+                    <Typography variant="body2" color="text.secondary">
+                      {isSignUp
+                        ? 'Already have an account?'
+                        : "Don't have an account?"}{' '}
+                      <motion.span
+                        onClick={handleModeToggle}
+                        whileHover={{ scale: 1.05 }}
+                        whileTap={{ scale: 0.95 }}
+                        style={{
+                          color: '#00ff00',
+                          cursor: 'pointer',
+                          fontWeight: 600,
+                          textDecoration: 'none',
+                          borderBottom: '1px solid transparent',
+                          display: 'inline-block',
+                        }}
+                        onMouseEnter={(e) => {
+                          e.currentTarget.style.borderBottom =
+                            '1px solid #00ff00'
+                        }}
+                        onMouseLeave={(e) => {
+                          e.currentTarget.style.borderBottom =
+                            '1px solid transparent'
+                        }}
+                      >
+                        {isSignUp ? 'Sign In' : 'Sign Up'}
+                      </motion.span>
+                    </Typography>
+                  </Box>
+                </Box>
+              </motion.div>
+            </AnimatePresence>
+          </GlowCard>
+        </motion.div>
       </Container>
     </Box>
   )
