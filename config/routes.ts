@@ -14,7 +14,6 @@ export const APP_ROUTES = {
     ROOT: '/admin',
     USERS: '/admin/users',
     ACTIVITY: '/admin/activity',
-    SETTINGS: '/admin/settings',
   },
 } as const
 

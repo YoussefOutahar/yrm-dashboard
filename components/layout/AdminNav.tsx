@@ -98,17 +98,20 @@ export default function AdminNav({ user, role, open }: AdminNavProps) {
         {adminNavigation.map((item) => (
           <ListItem key={item.path} disablePadding>
             <ListItemButton
-              component={Link}
-              href={item.path}
-              selected={pathname === item.path}
+              component={item.disabled ? 'div' : Link}
+              href={item.disabled ? undefined : item.path}
+              selected={!item.disabled && pathname === item.path}
+              disabled={item.disabled}
               sx={{
                 textDecoration: 'none',
                 color: 'inherit',
                 justifyContent: open ? 'initial' : 'center',
                 borderRadius: '12px',
                 mb: 0.5,
+                opacity: item.disabled ? 0.4 : 1,
+                cursor: item.disabled ? 'not-allowed' : 'pointer',
                 '&:hover': {
-                  backgroundColor: 'rgba(255, 255, 255, 0.05)',
+                  backgroundColor: item.disabled ? 'transparent' : 'rgba(255, 255, 255, 0.05)',
                 },
                 '&.Mui-selected': {
                   backgroundColor: 'rgba(0, 255, 136, 0.1)',
@@ -116,10 +119,13 @@ export default function AdminNav({ user, role, open }: AdminNavProps) {
                     backgroundColor: 'rgba(0, 255, 136, 0.15)',
                   },
                 },
+                '&.Mui-disabled': {
+                  opacity: 0.4,
+                },
               }}
             >
               <ListItemIcon sx={{
-                color: pathname === item.path ? 'primary.main' : 'inherit',
+                color: !item.disabled && pathname === item.path ? 'primary.main' : 'inherit',
                 minWidth: open ? 56 : 'auto',
                 justifyContent: 'center',
               }}>
