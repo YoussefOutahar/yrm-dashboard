@@ -34,7 +34,7 @@ export default function AdminShell({ user, role, children }: AdminShellProps) {
         }}
       >
         <Box sx={{ p: 1 }}>
-          <TopBar title={getPageTitle(pathname)} onMenuClick={handleDrawerToggle} />
+          <TopBar title={getPageTitle(pathname)} onMenuClick={handleDrawerToggle} user={user} />
         </Box>
         <Box
           component="main"

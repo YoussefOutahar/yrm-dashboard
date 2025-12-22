@@ -14,7 +14,7 @@ import {
   Tabs,
   Tab,
   Avatar,
-  LinearProgress,
+  CircularProgress,
   Divider,
   IconButton,
   InputAdornment,
@@ -74,7 +74,6 @@ export default function ProfilePage() {
 
   // Form states
   const [fullName, setFullName] = useState('')
-  const [avatarUrl, setAvatarUrl] = useState('')
 
   // Password form states
   const [newPassword, setNewPassword] = useState('')
@@ -84,7 +83,6 @@ export default function ProfilePage() {
   useEffect(() => {
     if (profile?.user?.user_metadata) {
       setFullName(profile.user.user_metadata.full_name || '')
-      setAvatarUrl(profile.user.user_metadata.avatar_url || '')
     }
   }, [profile])
 
@@ -98,7 +96,6 @@ export default function ProfilePage() {
     e.preventDefault()
     const result = await updateMetadata({
       full_name: fullName,
-      avatar_url: avatarUrl,
     })
     if (result?.success) {
       setSuccess(true)
@@ -122,8 +119,23 @@ export default function ProfilePage() {
 
   if (loading) {
     return (
-      <Box>
-        <LinearProgress />
+      <Box
+        sx={{
+          minHeight: '60vh',
+          display: 'flex',
+          alignItems: 'center',
+          justifyContent: 'center',
+        }}
+      >
+        <CircularProgress
+          size={60}
+          sx={{
+            color: '#00ff00',
+            '& .MuiCircularProgress-circle': {
+              strokeLinecap: 'round',
+            },
+          }}
+        />
       </Box>
     )
   }
@@ -157,15 +169,17 @@ export default function ProfilePage() {
                 <Grid size={{ xs: 12 }}>
                   <Box display="flex" alignItems="center" gap={3}>
                     <Avatar
-                      src={profile?.user?.user_metadata?.avatar_url}
-                      alt={profile?.user?.user_metadata?.full_name || 'User'}
                       sx={{
                         width: 80,
                         height: 80,
                         border: '2px solid',
                         borderColor: 'primary.main',
+                        bgcolor: 'primary.main',
+                        fontSize: '2rem',
                       }}
-                    />
+                    >
+                      {(profile?.user?.user_metadata?.full_name || 'A').charAt(0).toUpperCase()}
+                    </Avatar>
                     <Box>
                       <Typography variant="h6">
                         {profile?.user?.user_metadata?.full_name || 'Anonymous'}
@@ -179,17 +193,6 @@ export default function ProfilePage() {
 
                 <Grid size={{ xs: 12 }}>
                   <Divider />
-                </Grid>
-
-                <Grid size={{ xs: 12 }}>
-                  <TextField
-                    label="Avatar URL"
-                    value={avatarUrl}
-                    onChange={(e) => setAvatarUrl(e.target.value)}
-                    fullWidth
-                    placeholder="https://example.com/avatar.jpg"
-                    helperText="Enter a URL to an image (e.g., https://github.com/username.png)"
-                  />
                 </Grid>
 
                 <Grid size={{ xs: 12 }}>

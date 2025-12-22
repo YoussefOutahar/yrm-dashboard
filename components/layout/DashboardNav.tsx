@@ -45,8 +45,7 @@ export default function DashboardNav({ user, role, open }: DashboardNavProps) {
     setLoading(true)
     const supabase = createClient()
     await supabase.auth.signOut()
-    router.push(APP_ROUTES.AUTH)
-    router.refresh()
+    // AuthGuard will handle the redirect
   }
 
   return (
@@ -145,6 +144,10 @@ export default function DashboardNav({ user, role, open }: DashboardNavProps) {
         <List sx={{ p: 0 }}>
           <ListItem disablePadding sx={{ mb: 1 }}>
             <ListItemButton
+              component="a"
+              href="https://intercom.help/yrmprop/en/"
+              target="_blank"
+              rel="noopener noreferrer"
               sx={{
                 justifyContent: open ? 'initial' : 'center',
                 borderRadius: '12px',

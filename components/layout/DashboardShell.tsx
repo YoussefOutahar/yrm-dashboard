@@ -34,7 +34,7 @@ export default function DashboardShell({ user, role, children }: DashboardShellP
         }}
       >
         <Box sx={{ p: 1 }}>
-          <TopBar title={getPageTitle(pathname)} onMenuClick={handleDrawerToggle} />
+          <TopBar title={getPageTitle(pathname)} onMenuClick={handleDrawerToggle} user={user} />
         </Box>
         <Box
           component="main"

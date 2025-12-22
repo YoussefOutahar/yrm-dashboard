@@ -41,8 +41,7 @@ export default function AdminNav({ user, role, open }: AdminNavProps) {
     setLoading(true)
     const supabase = createClient()
     await supabase.auth.signOut()
-    router.push(APP_ROUTES.AUTH)
-    router.refresh()
+    // AuthGuard will handle the redirect
   }
 
   return (

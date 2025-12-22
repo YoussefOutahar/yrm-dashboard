@@ -87,7 +87,15 @@ export default function ActivityLog() {
 
         {loading ? (
           <Box sx={{ display: 'flex', justifyContent: 'center', py: 3 }}>
-            <CircularProgress size={24} />
+            <CircularProgress
+              size={24}
+              sx={{
+                color: '#00ff00',
+                '& .MuiCircularProgress-circle': {
+                  strokeLinecap: 'round',
+                },
+              }}
+            />
           </Box>
         ) : activities.length === 0 ? (
           <Typography variant="body2" color="text.secondary">

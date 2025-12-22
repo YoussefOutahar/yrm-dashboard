@@ -179,7 +179,15 @@ export default function AdminActivityLogPage() {
 
           {loading ? (
             <Box sx={{ display: 'flex', justifyContent: 'center', p: 8 }}>
-              <CircularProgress />
+              <CircularProgress
+                size={60}
+                sx={{
+                  color: '#00ff00',
+                  '& .MuiCircularProgress-circle': {
+                    strokeLinecap: 'round',
+                  },
+                }}
+              />
             </Box>
           ) : (
             <>

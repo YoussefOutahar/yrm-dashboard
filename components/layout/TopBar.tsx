@@ -1,14 +1,16 @@
 'use client'
 
-import { AppBar, Toolbar, Typography, IconButton } from '@mui/material'
+import { AppBar, Toolbar, Typography, IconButton, Avatar, Box } from '@mui/material'
 import { Menu as MenuIcon } from '@mui/icons-material'
+import type { User } from '@supabase/supabase-js'
 
 interface TopBarProps {
   title: string
   onMenuClick: () => void
+  user?: User
 }
 
-export default function TopBar({ title, onMenuClick }: TopBarProps) {
+export default function TopBar({ title, onMenuClick, user }: TopBarProps) {
   return (
     <AppBar
       position="static"
@@ -38,6 +40,22 @@ export default function TopBar({ title, onMenuClick }: TopBarProps) {
         <Typography variant="h6" noWrap component="div" color="text.primary">
           {title}
         </Typography>
+        <Box sx={{ flexGrow: 1 }} />
+        {user && (
+          <Avatar
+            sx={{
+              width: 40,
+              height: 40,
+              bgcolor: 'primary.main',
+              border: '2px solid',
+              borderColor: 'primary.main',
+              fontSize: '1rem',
+              fontWeight: 'bold',
+            }}
+          >
+            {(user?.user_metadata?.full_name || user?.email || 'A').charAt(0).toUpperCase()}
+          </Avatar>
+        )}
       </Toolbar>
     </AppBar>
   )
