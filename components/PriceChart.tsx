@@ -1,6 +1,5 @@
 'use client'
 
-import { useState, useEffect } from 'react'
 import {
   Card,
   CardContent,
@@ -15,85 +14,45 @@ import { DatePicker } from '@mui/x-date-pickers/DatePicker'
 import { LocalizationProvider } from '@mui/x-date-pickers/LocalizationProvider'
 import { AdapterDateFns } from '@mui/x-date-pickers/AdapterDateFns'
 import { LineChart, Line, XAxis, YAxis, CartesianGrid, Tooltip, ResponsiveContainer } from 'recharts'
-import { useActivityLog } from '@/contexts/ActivityLogContext'
-import { subDays, format } from 'date-fns'
+import { format } from 'date-fns'
+import type { PriceData } from '@/types'
 
 const TICKERS = ['AAPL', 'MSFT', 'GOOGL']
 
-interface PriceData {
-  date: string
-  price: number
+interface PriceChartProps {
+  ticker: string
+  startDate: Date | null
+  endDate: Date | null
+  data: PriceData[]
+  loading: boolean
+  error: string | null
+  onTickerChange: (ticker: string) => void
+  onStartDateChange: (date: Date | null) => void
+  onEndDateChange: (date: Date | null) => void
 }
 
-export default function PriceChart() {
-  const [ticker, setTicker] = useState('AAPL')
-  const [startDate, setStartDate] = useState<Date | null>(subDays(new Date(), 30))
-  const [endDate, setEndDate] = useState<Date | null>(new Date())
-  const [data, setData] = useState<PriceData[]>([])
-  const [loading, setLoading] = useState(false)
-  const [error, setError] = useState('')
-  const { addActivity } = useActivityLog()
-
-  const generateMockData = (days: number): PriceData[] => {
-    const data: PriceData[] = []
-    const basePrice = ticker === 'AAPL' ? 170 : ticker === 'MSFT' ? 380 : 140
-    let currentPrice = basePrice
-
-    for (let i = days; i >= 0; i--) {
-      const date = subDays(new Date(), i)
-      currentPrice = currentPrice + (Math.random() - 0.5) * 5
-      data.push({
-        date: format(date, 'MMM dd'),
-        price: parseFloat(currentPrice.toFixed(2)),
-      })
-    }
-    return data
-  }
-
-  useEffect(() => {
-    fetchPriceData()
-  }, [ticker, startDate, endDate])
-
-  const fetchPriceData = async () => {
-    setLoading(true)
-    setError('')
-
-    try {
-      // Using mock data instead of API for demo
-      // In production, replace with actual API call to Alpha Vantage or Finnhub
-      await new Promise(resolve => setTimeout(resolve, 500))
-
-      const days = startDate && endDate
-        ? Math.ceil((endDate.getTime() - startDate.getTime()) / (1000 * 60 * 60 * 24))
-        : 30
-
-      const mockData = generateMockData(days)
-      setData(mockData)
-    } catch (err) {
-      setError('Failed to fetch price data')
-      console.error(err)
-    } finally {
-      setLoading(false)
-    }
-  }
-
+export default function PriceChart({
+  ticker,
+  startDate,
+  endDate,
+  data,
+  loading,
+  error,
+  onTickerChange,
+  onStartDateChange,
+  onEndDateChange,
+}: PriceChartProps) {
   const handleTickerChange = (_: React.MouseEvent<HTMLElement>, newTicker: string | null) => {
     if (newTicker) {
-      setTicker(newTicker)
-      addActivity('ticker_change', `Changed ticker to ${newTicker}`)
+      onTickerChange(newTicker)
     }
   }
 
-  const handleDateChange = (type: 'start' | 'end', date: Date | null) => {
-    if (type === 'start') {
-      setStartDate(date)
-    } else {
-      setEndDate(date)
-    }
-    if (date) {
-      addActivity('date_filter_update', `Updated ${type} date to ${format(date, 'MMM dd, yyyy')}`)
-    }
-  }
+  // Format data for chart display
+  const chartData = data.map((item) => ({
+    date: format(new Date(item.date), 'MMM dd'),
+    price: item.price,
+  }))
 
   return (
     <Card>
@@ -119,13 +78,13 @@ export default function PriceChart() {
               <DatePicker
                 label="Start Date"
                 value={startDate}
-                onChange={(date) => handleDateChange('start', date)}
+                onChange={onStartDateChange}
                 slotProps={{ textField: { size: 'small' } }}
               />
               <DatePicker
                 label="End Date"
                 value={endDate}
-                onChange={(date) => handleDateChange('end', date)}
+                onChange={onEndDateChange}
                 slotProps={{ textField: { size: 'small' } }}
               />
             </LocalizationProvider>
@@ -138,9 +97,15 @@ export default function PriceChart() {
           <Box sx={{ display: 'flex', justifyContent: 'center', alignItems: 'center', height: 400 }}>
             <CircularProgress />
           </Box>
+        ) : chartData.length === 0 ? (
+          <Box sx={{ display: 'flex', justifyContent: 'center', alignItems: 'center', height: 400 }}>
+            <Typography variant="body2" color="text.secondary">
+              No data available for the selected date range
+            </Typography>
+          </Box>
         ) : (
           <ResponsiveContainer width="100%" height={400}>
-            <LineChart data={data}>
+            <LineChart data={chartData}>
               <CartesianGrid strokeDasharray="3 3" stroke="#1a1a1a" />
               <XAxis dataKey="date" stroke="#b3b3b3" />
               <YAxis stroke="#b3b3b3" domain={['auto', 'auto']} />
@@ -164,7 +129,7 @@ export default function PriceChart() {
         )}
 
         <Typography variant="caption" color="text.secondary" sx={{ mt: 2, display: 'block' }}>
-          Note: Using mock data for demonstration. Replace with actual API integration.
+          Data provided by Alpha Vantage API
         </Typography>
       </CardContent>
     </Card>

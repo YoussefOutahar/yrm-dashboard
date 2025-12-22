@@ -17,3 +17,15 @@ export type {
   PasswordChangeRequest,
   ProfileResponse,
 } from './profile.types'
+
+// Price Chart types
+export type {
+  AlphaVantageMetaData,
+  AlphaVantageDailyData,
+  AlphaVantageTimeSeries,
+  AlphaVantageResponse,
+  PriceData,
+  PriceChartParams,
+  PriceChartResponse,
+  PriceChartError,
+} from './priceChart.types'

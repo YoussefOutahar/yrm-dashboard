@@ -22,8 +22,8 @@ const nextConfig: NextConfig = {
   // Production optimizations
   productionBrowserSourceMaps: false,
 
-  // Enable React strict mode for better development experience
-  reactStrictMode: true,
+  // Disable React strict mode to prevent double API calls
+  reactStrictMode: false,
 
   // Configure module transpilation if needed
   transpilePackages: [],
