@@ -3,7 +3,9 @@
 import { useState } from 'react'
 import { Box, Grid } from '@mui/material'
 import PriceChart from '@/components/PriceChart'
-import TraderOverview from '@/components/TraderOverview'
+import AccountHeader from '@/components/AccountHeader'
+import PerformanceGauges from '@/components/PerformanceGauges'
+import RiskMetrics from '@/components/RiskMetrics'
 import ActivityLog from '@/components/ActivityLog'
 import { usePriceChart, useActivityLog, useProfile } from '@/hooks'
 import { subDays, format } from 'date-fns'
@@ -57,28 +59,43 @@ export default function DashboardPage() {
   return (
     <Box>
       <Grid container spacing={3}>
-        {/* Price Chart - Full width */}
+        {/* Account Header */}
         <Grid size={{ xs: 12 }}>
-          <PriceChart
-            ticker={ticker}
-            startDate={startDate}
-            endDate={endDate}
-            data={data}
-            loading={loading}
-            error={error}
-            onTickerChange={handleTickerChange}
-            onStartDateChange={handleStartDateChange}
-            onEndDateChange={handleEndDateChange}
-          />
+          <AccountHeader />
         </Grid>
 
-        {/* Trader Overview - Left side */}
-        <Grid size={{ xs: 12, md: 6 }}>
-          <TraderOverview />
+        {/* Left Column - Performance and Chart */}
+        <Grid size={{ xs: 12, lg: 8 }}>
+          <Grid container spacing={3}>
+            {/* Performance Gauges */}
+            <Grid size={{ xs: 12 }}>
+              <PerformanceGauges />
+            </Grid>
+
+            {/* Price Chart below Performance */}
+            <Grid size={{ xs: 12 }}>
+              <PriceChart
+                ticker={ticker}
+                startDate={startDate}
+                endDate={endDate}
+                data={data}
+                loading={loading}
+                error={error}
+                onTickerChange={handleTickerChange}
+                onStartDateChange={handleStartDateChange}
+                onEndDateChange={handleEndDateChange}
+              />
+            </Grid>
+          </Grid>
         </Grid>
 
-        {/* Activity Log - Right side */}
-        <Grid size={{ xs: 12, md: 6 }}>
+        {/* Right Column - Risk Metrics (full height) */}
+        <Grid size={{ xs: 12, lg: 4 }}>
+          <RiskMetrics />
+        </Grid>
+
+        {/* Activity Log - Full width below everything */}
+        <Grid size={{ xs: 12 }}>
           <ActivityLog />
         </Grid>
       </Grid>

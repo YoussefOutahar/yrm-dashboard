@@ -2,13 +2,13 @@
 
 import {
   Box,
-  Grid,
   Card,
   CardContent,
   Typography,
   LinearProgress,
   Chip,
 } from '@mui/material'
+import Grid from '@mui/material/Grid'
 import {
   People as PeopleIcon,
   PersonAdd as PersonAddIcon,
@@ -154,7 +154,7 @@ export default function AdminDashboardPage() {
 
       {/* Stats Cards */}
       <Grid container spacing={3} sx={{ mb: 3 }}>
-        <Grid item xs={12} sm={6} md={3}>
+        <Grid size={{ xs: 12, sm: 6, md: 3 }}>
           <StatCard
             title="Total Users"
             value={stats.totalUsers.toLocaleString()}
@@ -163,7 +163,7 @@ export default function AdminDashboardPage() {
             color="#00ff88"
           />
         </Grid>
-        <Grid item xs={12} sm={6} md={3}>
+        <Grid size={{ xs: 12, sm: 6, md: 3 }}>
           <StatCard
             title="Active Users"
             value={stats.activeUsers.toLocaleString()}
@@ -172,7 +172,7 @@ export default function AdminDashboardPage() {
             color="#00bfff"
           />
         </Grid>
-        <Grid item xs={12} sm={6} md={3}>
+        <Grid size={{ xs: 12, sm: 6, md: 3 }}>
           <StatCard
             title="Pending Requests"
             value={stats.pendingUsers}
@@ -180,7 +180,7 @@ export default function AdminDashboardPage() {
             color="#ffaa00"
           />
         </Grid>
-        <Grid item xs={12} sm={6} md={3}>
+        <Grid size={{ xs: 12, sm: 6, md: 3 }}>
           <StatCard
             title="Total Revenue"
             value={`$${(stats.totalRevenue / 1000).toFixed(0)}K`}
@@ -193,7 +193,7 @@ export default function AdminDashboardPage() {
 
       {/* User Distribution */}
       <Grid container spacing={3} sx={{ mb: 3 }}>
-        <Grid item xs={12} md={6}>
+        <Grid size={{ xs: 12, md: 6 }}>
           <Card>
             <CardContent>
               <Typography variant="h6" fontWeight="bold" sx={{ mb: 3 }}>
@@ -257,7 +257,7 @@ export default function AdminDashboardPage() {
           </Card>
         </Grid>
 
-        <Grid item xs={12} md={6}>
+        <Grid size={{ xs: 12, md: 6 }}>
           <Card>
             <CardContent>
               <Typography variant="h6" fontWeight="bold" sx={{ mb: 3 }}>
@@ -310,46 +310,6 @@ export default function AdminDashboardPage() {
         </Grid>
       </Grid>
 
-      {/* System Status */}
-      <Card>
-        <CardContent>
-          <Typography variant="h6" fontWeight="bold" sx={{ mb: 3 }}>
-            System Status
-          </Typography>
-          <Grid container spacing={2}>
-            <Grid item xs={12} sm={4}>
-              <Box sx={{ textAlign: 'center', p: 2 }}>
-                <Typography variant="body2" color="text.secondary" sx={{ mb: 1 }}>
-                  Server Status
-                </Typography>
-                <Typography variant="h6" color="success.main" fontWeight="bold">
-                  Operational
-                </Typography>
-              </Box>
-            </Grid>
-            <Grid item xs={12} sm={4}>
-              <Box sx={{ textAlign: 'center', p: 2 }}>
-                <Typography variant="body2" color="text.secondary" sx={{ mb: 1 }}>
-                  Database
-                </Typography>
-                <Typography variant="h6" color="success.main" fontWeight="bold">
-                  Healthy
-                </Typography>
-              </Box>
-            </Grid>
-            <Grid item xs={12} sm={4}>
-              <Box sx={{ textAlign: 'center', p: 2 }}>
-                <Typography variant="body2" color="text.secondary" sx={{ mb: 1 }}>
-                  API Response
-                </Typography>
-                <Typography variant="h6" color="success.main" fontWeight="bold">
-                  45ms
-                </Typography>
-              </Box>
-            </Grid>
-          </Grid>
-        </CardContent>
-      </Card>
     </Box>
   )
 }
