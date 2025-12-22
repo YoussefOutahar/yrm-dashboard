@@ -120,8 +120,8 @@ export default function UserManagementPage() {
                 </TableRow>
               </TableHead>
               <TableBody>
-                {users.map((user) => (
-                  <TableRow key={user.id} hover>
+                {users.map((user, index) => (
+                  <TableRow key={user.id || `user-${user.name}-${index}`} hover>
                     <TableCell>{user.name}</TableCell>
                     <TableCell>
                       <Chip

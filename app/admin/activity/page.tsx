@@ -167,8 +167,8 @@ export default function AdminActivityLogPage() {
                         </TableCell>
                       </TableRow>
                     ) : (
-                      paginatedActivities.map((activity) => (
-                        <TableRow key={activity.id} hover>
+                      paginatedActivities.map((activity, index) => (
+                        <TableRow key={activity.id || `${activity.user_name}-${activity.timestamp.getTime()}-${index}`} hover>
                           <TableCell>
                             <Typography variant="body2" fontWeight={500}>
                               {activity.user_name || 'Unknown User'}
