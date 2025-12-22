@@ -135,7 +135,7 @@ export default function AdminActivityLogPage() {
 
   return (
     <Box>
-      <Card>
+      <Card sx={{ backgroundColor: 'rgba(26, 26, 26, 0.9)', borderRadius: '16px' }}>
         <CardContent>
           <Typography variant="body2" color="text.secondary" sx={{ mb: 2 }}>
             Showing all activity logs from all users across the system

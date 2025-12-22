@@ -55,7 +55,7 @@ export default function ActivityLog() {
   })
 
   return (
-    <Card>
+    <Card sx={{ backgroundColor: 'rgba(26, 26, 26, 0.9)', borderRadius: '16px' }}>
       <CardContent>
         <Typography variant="h5" fontWeight="bold" sx={{ mb: 3 }}>
           Recent Activity

@@ -130,7 +130,7 @@ export default function ProfilePage() {
 
   return (
     <Box>
-      <Card>
+      <Card sx={{ backgroundColor: 'rgba(26, 26, 26, 0.9)', borderRadius: '16px' }}>
         <CardContent>
           <Tabs value={activeTab} onChange={handleTabChange} sx={{ borderBottom: 1, borderColor: 'divider' }}>
             <Tab icon={<Person />} label="Profile" iconPosition="start" />

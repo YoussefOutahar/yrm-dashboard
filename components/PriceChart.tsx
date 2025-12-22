@@ -55,8 +55,8 @@ export default function PriceChart({
   }))
 
   return (
-    <Card>
-      <CardContent>
+    <Card sx={{ backgroundColor: 'rgba(26, 26, 26, 0.9)', borderRadius: '16px', height: '100%', display: 'flex', flexDirection: 'column' }}>
+      <CardContent sx={{ display: 'flex', flexDirection: 'column', flex: 1, p: 3, '&:last-child': { pb: 3 } }}>
         <Box sx={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', mb: 3, flexWrap: 'wrap', gap: 2 }}>
           <Typography variant="h5" fontWeight="bold">
             Price Chart
@@ -93,44 +93,42 @@ export default function PriceChart({
 
         {error && <Alert severity="error" sx={{ mb: 2 }}>{error}</Alert>}
 
-        {loading ? (
-          <Box sx={{ display: 'flex', justifyContent: 'center', alignItems: 'center', height: 400 }}>
-            <CircularProgress />
-          </Box>
-        ) : chartData.length === 0 ? (
-          <Box sx={{ display: 'flex', justifyContent: 'center', alignItems: 'center', height: 400 }}>
-            <Typography variant="body2" color="text.secondary">
-              No data available for the selected date range
-            </Typography>
-          </Box>
-        ) : (
-          <ResponsiveContainer width="100%" height={400}>
-            <LineChart data={chartData}>
-              <CartesianGrid strokeDasharray="3 3" stroke="#1a1a1a" />
-              <XAxis dataKey="date" stroke="#b3b3b3" />
-              <YAxis stroke="#b3b3b3" domain={['auto', 'auto']} />
-              <Tooltip
-                contentStyle={{
-                  backgroundColor: '#0a0a0a',
-                  border: '1px solid #00ff00',
-                  borderRadius: 8,
-                  color: '#ffffff',
-                }}
-              />
-              <Line
-                type="monotone"
-                dataKey="price"
-                stroke="#00ff00"
-                strokeWidth={3}
-                dot={false}
-              />
-            </LineChart>
-          </ResponsiveContainer>
-        )}
-
-        <Typography variant="caption" color="text.secondary" sx={{ mt: 2, display: 'block' }}>
-          Data provided by Alpha Vantage API
-        </Typography>
+        <Box sx={{ flex: 1, minHeight: 0, display: 'flex', flexDirection: 'column' }}>
+          {loading ? (
+            <Box sx={{ display: 'flex', justifyContent: 'center', alignItems: 'center', flex: 1 }}>
+              <CircularProgress />
+            </Box>
+          ) : chartData.length === 0 ? (
+            <Box sx={{ display: 'flex', justifyContent: 'center', alignItems: 'center', flex: 1 }}>
+              <Typography variant="body2" color="text.secondary">
+                No data available for the selected date range
+              </Typography>
+            </Box>
+          ) : (
+            <ResponsiveContainer width="100%" height="100%">
+              <LineChart data={chartData}>
+                <CartesianGrid strokeDasharray="3 3" stroke="#1a1a1a" />
+                <XAxis dataKey="date" stroke="#b3b3b3" />
+                <YAxis stroke="#b3b3b3" domain={['auto', 'auto']} />
+                <Tooltip
+                  contentStyle={{
+                    backgroundColor: '#0a0a0a',
+                    border: '1px solid #00ff00',
+                    borderRadius: 8,
+                    color: '#ffffff',
+                  }}
+                />
+                <Line
+                  type="monotone"
+                  dataKey="price"
+                  stroke="#00ff00"
+                  strokeWidth={3}
+                  dot={false}
+                />
+              </LineChart>
+            </ResponsiveContainer>
+          )}
+        </Box>
       </CardContent>
     </Card>
   )

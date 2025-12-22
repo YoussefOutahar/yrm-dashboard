@@ -106,12 +106,8 @@ export default function UserManagementPage() {
 
   return (
     <Box>
-      <Card>
+      <Card sx={{ backgroundColor: 'rgba(26, 26, 26, 0.9)', borderRadius: '16px' }}>
         <CardContent>
-          <Typography variant="h6" fontWeight="bold" sx={{ mb: 3 }}>
-            User Management
-          </Typography>
-
           <TableContainer>
             <Table>
               <TableHead>

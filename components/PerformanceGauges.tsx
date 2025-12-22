@@ -13,8 +13,8 @@ interface SemiCircleGaugeProps {
 }
 
 function SemiCircleGauge({ value, percentage, label, color, minLabel, maxLabel }: SemiCircleGaugeProps) {
-  const radius = 70
-  const strokeWidth = 12
+  const radius = 121
+  const strokeWidth = 29
   const normalizedRadius = radius - strokeWidth / 2
   const circumference = normalizedRadius * Math.PI // Half circle
   const strokeDashoffset = circumference - (percentage / 100) * circumference
@@ -42,7 +42,7 @@ function SemiCircleGauge({ value, percentage, label, color, minLabel, maxLabel }
           style={{ transition: 'stroke-dashoffset 0.5s ease' }}
         />
       </svg>
-      <Box sx={{ position: 'absolute', top: '35%', textAlign: 'center' }}>
+      <Box sx={{ position: 'absolute', top: '50%', left: '50%', transform: 'translate(-50%, -50%)', textAlign: 'center' }}>
         <Typography variant="h5" fontWeight="bold">
           {value}
         </Typography>
@@ -64,7 +64,7 @@ function SemiCircleGauge({ value, percentage, label, color, minLabel, maxLabel }
 
 export default function PerformanceGauges() {
   return (
-    <Card>
+    <Card sx={{ backgroundColor: 'rgba(26, 26, 26, 0.9)', borderRadius: '16px' }}>
       <CardContent>
         <Typography variant="body2" color="text.secondary" sx={{ mb: 3 }}>
           Performance

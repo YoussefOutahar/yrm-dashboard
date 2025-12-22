@@ -33,15 +33,15 @@ export default function AdminShell({ user, role, children }: AdminShellProps) {
           flexDirection: 'column',
         }}
       >
-        <Box sx={{ pt: 1, pr: 1, pb: 0, pl: 0.5 }}>
+        <Box sx={{ p: 1 }}>
           <TopBar title={getPageTitle(pathname)} onMenuClick={handleDrawerToggle} />
         </Box>
         <Box
           component="main"
           sx={{
             flexGrow: 1,
-            p: 3,
             backgroundColor: 'background.default',
+            p: 1,
           }}
         >
           {children}

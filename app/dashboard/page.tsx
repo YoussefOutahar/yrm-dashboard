@@ -58,7 +58,7 @@ export default function DashboardPage() {
 
   return (
     <Box>
-      <Grid container spacing={3}>
+      <Grid container spacing={2}>
         {/* Account Header */}
         <Grid size={{ xs: 12 }}>
           <AccountHeader />
@@ -66,7 +66,7 @@ export default function DashboardPage() {
 
         {/* Left Column - Performance and Chart */}
         <Grid size={{ xs: 12, lg: 8 }}>
-          <Grid container spacing={3}>
+          <Grid container spacing={2}>
             {/* Performance Gauges */}
             <Grid size={{ xs: 12 }}>
               <PerformanceGauges />
@@ -74,17 +74,19 @@ export default function DashboardPage() {
 
             {/* Price Chart below Performance */}
             <Grid size={{ xs: 12 }}>
-              <PriceChart
-                ticker={ticker}
-                startDate={startDate}
-                endDate={endDate}
-                data={data}
-                loading={loading}
-                error={error}
-                onTickerChange={handleTickerChange}
-                onStartDateChange={handleStartDateChange}
-                onEndDateChange={handleEndDateChange}
-              />
+              <Box sx={{ height: '600px' }}>
+                <PriceChart
+                  ticker={ticker}
+                  startDate={startDate}
+                  endDate={endDate}
+                  data={data}
+                  loading={loading}
+                  error={error}
+                  onTickerChange={handleTickerChange}
+                  onStartDateChange={handleStartDateChange}
+                  onEndDateChange={handleEndDateChange}
+                />
+              </Box>
             </Grid>
           </Grid>
         </Grid>

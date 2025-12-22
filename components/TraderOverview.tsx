@@ -69,7 +69,7 @@ export default function TraderOverview() {
       <Grid container spacing={3}>
         {/* Account Header */}
         <Grid size={{ xs: 12 }}>
-          <Card sx={{ backgroundColor: 'background.paper' }}>
+          <Card sx={{ backgroundColor: 'rgba(26, 26, 26, 0.9)', borderRadius: '16px' }}>
             <CardContent>
               <Box sx={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', mb: 3 }}>
                 <Typography variant="body2" color="primary">
@@ -154,7 +154,7 @@ export default function TraderOverview() {
 
         {/* Performance Section */}
         <Grid size={{ xs: 12, lg: 8 }}>
-          <Card>
+          <Card sx={{ backgroundColor: 'rgba(26, 26, 26, 0.9)', borderRadius: '16px' }}>
             <CardContent>
               <Typography variant="body2" color="text.secondary" sx={{ mb: 3 }}>
                 Performance
@@ -207,7 +207,7 @@ export default function TraderOverview() {
 
         {/* Right Panel - Targets and Limits */}
         <Grid size={{ xs: 12, lg: 4 }}>
-          <Card sx={{ height: '100%' }}>
+          <Card sx={{ height: '100%', backgroundColor: 'rgba(26, 26, 26, 0.9)', borderRadius: '16px' }}>
             <CardContent>
               <Box sx={{ mb: 3 }}>
                 <Typography variant="caption" color="text.secondary">
@@ -320,7 +320,7 @@ export default function TraderOverview() {
 
       {/* Trade Growth View Chart Placeholder */}
       <Box sx={{ mt: 3 }}>
-        <Card>
+        <Card sx={{ backgroundColor: 'rgba(26, 26, 26, 0.9)', borderRadius: '16px' }}>
           <CardContent>
             <Box sx={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', mb: 2 }}>
               <Box sx={{ display: 'flex', gap: 2, alignItems: 'center' }}>

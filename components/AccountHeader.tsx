@@ -1,21 +1,26 @@
 'use client'
 
-import { Card, CardContent, Typography, Box, Chip } from '@mui/material'
+import { Card, CardContent, Typography, Box, Chip, Button } from '@mui/material'
 import Grid from '@mui/material/Grid'
-import { CalendarToday, AccountBalance } from '@mui/icons-material'
+import { CalendarToday, AttachMoney, BusinessCenter, Key } from '@mui/icons-material'
 
 export default function AccountHeader() {
   return (
-    <Card sx={{ backgroundColor: 'background.paper' }}>
-      <CardContent>
+    <Card sx={{ backgroundColor: 'rgba(26, 26, 26, 0.9)', borderRadius: '16px' }}>
+      <CardContent sx={{ pb: 2 }}>
+        {/* First Row: Account Number and Status */}
         <Box sx={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', mb: 3 }}>
-          <Typography variant="body2" color="primary">
-            Account YRM00000
+          <Typography variant="body1" color="primary">
+            Account YTRM00000
           </Typography>
           <Chip label="Active" color="success" size="small" />
         </Box>
-        <Grid container spacing={3}>
-          <Grid size={{ xs: 12, sm: 4 }}>
+
+        {/* Second Row: KPI Info and Buttons */}
+        <Box sx={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', gap: 3 }}>
+          {/* KPI Info */}
+          <Box sx={{ display: 'flex', gap: 4, flex: 1 }}>
+            {/* Program */}
             <Box sx={{ display: 'flex', gap: 2, alignItems: 'center' }}>
               <Box
                 sx={{
@@ -26,7 +31,7 @@ export default function AccountHeader() {
                   color: 'primary.main',
                 }}
               >
-                <AccountBalance />
+                <BusinessCenter />
               </Box>
               <Box>
                 <Typography variant="caption" color="text.secondary">
@@ -37,8 +42,8 @@ export default function AccountHeader() {
                 </Typography>
               </Box>
             </Box>
-          </Grid>
-          <Grid size={{ xs: 12, sm: 4 }}>
+
+            {/* Account Size */}
             <Box sx={{ display: 'flex', gap: 2, alignItems: 'center' }}>
               <Box
                 sx={{
@@ -49,7 +54,7 @@ export default function AccountHeader() {
                   color: 'primary.main',
                 }}
               >
-                <AccountBalance />
+                <AttachMoney />
               </Box>
               <Box>
                 <Typography variant="caption" color="text.secondary">
@@ -60,8 +65,8 @@ export default function AccountHeader() {
                 </Typography>
               </Box>
             </Box>
-          </Grid>
-          <Grid size={{ xs: 12, sm: 4 }}>
+
+            {/* Trade Period */}
             <Box sx={{ display: 'flex', gap: 2, alignItems: 'center' }}>
               <Box
                 sx={{
@@ -83,8 +88,40 @@ export default function AccountHeader() {
                 </Typography>
               </Box>
             </Box>
-          </Grid>
-        </Grid>
+          </Box>
+
+          {/* Action Buttons */}
+          <Box sx={{ display: 'flex', gap: 2 }}>
+            <Button
+              variant="outlined"
+              sx={{
+                borderColor: 'rgba(239, 68, 68, 0.5)',
+                color: '#ef4444',
+                textTransform: 'none',
+                borderRadius: '12px',
+                px: 3,
+                '&:hover': {
+                  borderColor: '#ef4444',
+                  backgroundColor: 'rgba(239, 68, 68, 0.1)',
+                },
+              }}
+            >
+              Start New Challenge
+            </Button>
+            <Button
+              variant="outlined"
+              startIcon={<Key />}
+              color="primary"
+              sx={{
+                textTransform: 'none',
+                borderRadius: '12px',
+                px: 3,
+              }}
+            >
+              Credentials
+            </Button>
+          </Box>
+        </Box>
       </CardContent>
     </Card>
   )

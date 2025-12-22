@@ -33,7 +33,7 @@ interface StatCardProps {
 
 function StatCard({ title, value, change, icon, color }: StatCardProps) {
   return (
-    <Card>
+    <Card sx={{ backgroundColor: 'rgba(26, 26, 26, 0.9)', borderRadius: '16px' }}>
       <CardContent>
         <Box sx={{ display: 'flex', justifyContent: 'space-between', alignItems: 'flex-start' }}>
           <Box>
@@ -148,10 +148,6 @@ export default function AdminDashboardPage() {
 
   return (
     <Box>
-      <Typography variant="h5" fontWeight="bold" sx={{ mb: 3 }}>
-        Admin Dashboard
-      </Typography>
-
       {/* Stats Cards */}
       <Grid container spacing={3} sx={{ mb: 3 }}>
         <Grid size={{ xs: 12, sm: 6, md: 3 }}>
@@ -194,7 +190,7 @@ export default function AdminDashboardPage() {
       {/* User Distribution */}
       <Grid container spacing={3} sx={{ mb: 3 }}>
         <Grid size={{ xs: 12, md: 6 }}>
-          <Card>
+          <Card sx={{ backgroundColor: 'rgba(26, 26, 26, 0.9)', borderRadius: '16px' }}>
             <CardContent>
               <Typography variant="h6" fontWeight="bold" sx={{ mb: 3 }}>
                 User Account Distribution
@@ -258,7 +254,7 @@ export default function AdminDashboardPage() {
         </Grid>
 
         <Grid size={{ xs: 12, md: 6 }}>
-          <Card>
+          <Card sx={{ backgroundColor: 'rgba(26, 26, 26, 0.9)', borderRadius: '16px' }}>
             <CardContent>
               <Typography variant="h6" fontWeight="bold" sx={{ mb: 3 }}>
                 Recent Activity (Last 5 Actions)
