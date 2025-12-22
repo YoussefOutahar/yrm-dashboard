@@ -1,3 +1,5 @@
+'use client'
+
 import { Box, Button, Typography, Container } from '@mui/material'
 import { SearchOff, Home } from '@mui/icons-material'
 import Link from 'next/link'

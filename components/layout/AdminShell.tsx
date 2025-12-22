@@ -4,18 +4,18 @@ import { useState } from 'react'
 import { usePathname } from 'next/navigation'
 import { Box } from '@mui/material'
 import { getPageTitle } from '@/config/navigation'
-import DashboardNav from './DashboardNav'
+import AdminNav from './AdminNav'
 import TopBar from './TopBar'
 import type { User } from '@supabase/supabase-js'
 import type { UserRole } from '@/types'
 
-interface DashboardShellProps {
+interface AdminShellProps {
   user: User
   role: UserRole
   children: React.ReactNode
 }
 
-export default function DashboardShell({ user, role, children }: DashboardShellProps) {
+export default function AdminShell({ user, role, children }: AdminShellProps) {
   const [open, setOpen] = useState(true)
   const pathname = usePathname()
 
@@ -25,7 +25,7 @@ export default function DashboardShell({ user, role, children }: DashboardShellP
 
   return (
     <Box sx={{ display: 'flex', minHeight: '100vh' }}>
-      <DashboardNav user={user} role={role} open={open} />
+      <AdminNav user={user} role={role} open={open} />
       <Box
         sx={{
           flexGrow: 1,

@@ -49,13 +49,13 @@ export function useAuth(options: UseAuthOptions = {}) {
       onSuccess?.(credentials.email)
 
       if (redirectOnSuccess) {
-        router.push(redirectUrl)
+        // Let middleware handle role-based routing
         router.refresh()
       }
 
       return { success: true, user: data }
     },
-    [redirectOnSuccess, redirectUrl, router, onSuccess, onError]
+    [redirectOnSuccess, router, onSuccess, onError]
   )
 
   /**

@@ -1,14 +1,15 @@
 import { redirect } from 'next/navigation'
 import { createClient } from '@/lib/supabase/server'
-import { APP_ROUTES } from '@/config/routes'
+import { getUserRole, getDashboardRouteForRole } from '@/lib/utils/roles'
 
 export default async function Home() {
   const supabase = await createClient()
   const { data: { user } } = await supabase.auth.getUser()
 
   if (user) {
-    redirect(APP_ROUTES.DASHBOARD.ROOT)
+    const role = getUserRole(user)
+    redirect(getDashboardRouteForRole(role))
   } else {
-    redirect(APP_ROUTES.AUTH)
+    redirect('/auth')
   }
 }

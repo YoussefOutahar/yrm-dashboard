@@ -39,7 +39,7 @@ const mockUsers: User[] = [
   { id: '6', name: 'Lisa Martinez', accountType: 'Standard', status: 'Active', balance: 3850 },
 ]
 
-export default function AdminPage() {
+export default function UserManagementPage() {
   const [users, setUsers] = useState<User[]>(mockUsers)
   const [selectedUser, setSelectedUser] = useState<User | null>(null)
   const [dialogOpen, setDialogOpen] = useState(false)

@@ -3,11 +3,18 @@ export const APP_ROUTES = {
   HOME: '/',
   AUTH: '/auth',
 
-  // Dashboard routes
+  // Dashboard routes (regular users)
   DASHBOARD: {
     ROOT: '/dashboard',
     PROFILE: '/dashboard/profile',
-    ADMIN: '/dashboard/admin',
+  },
+
+  // Admin routes
+  ADMIN: {
+    ROOT: '/admin',
+    USERS: '/admin/users',
+    ACTIVITY: '/admin/activity',
+    SETTINGS: '/admin/settings',
   },
 } as const
 
@@ -26,4 +33,14 @@ export const isRoute = (pathname: string, route: string): boolean => {
 // Helper to check if pathname is within dashboard
 export const isDashboardRoute = (pathname: string): boolean => {
   return pathname.startsWith(APP_ROUTES.DASHBOARD.ROOT)
+}
+
+// Helper to check if pathname is within admin
+export const isAdminRoute = (pathname: string): boolean => {
+  return pathname.startsWith(APP_ROUTES.ADMIN.ROOT)
+}
+
+// Helper to get default route for a given role
+export function getDefaultRouteForRole(role: 'user' | 'admin' | 'trader'): string {
+  return role === 'admin' ? APP_ROUTES.ADMIN.ROOT : APP_ROUTES.DASHBOARD.ROOT
 }

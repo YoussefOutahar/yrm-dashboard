@@ -5,7 +5,7 @@ import { useRouter, usePathname } from 'next/navigation'
 import Link from 'next/link'
 import Image from 'next/image'
 import { createClient } from '@/lib/supabase/client'
-import { getNavigationForRole } from '@/config/navigation'
+import { adminNavigation } from '@/config/navigation'
 import { APP_ROUTES } from '@/config/routes'
 import type { UserRole } from '@/types'
 import {
@@ -26,19 +26,16 @@ import type { User } from '@supabase/supabase-js'
 const drawerWidth = 240
 const drawerWidthCollapsed = 64
 
-interface DashboardNavProps {
+interface AdminNavProps {
   user: User
   role: UserRole
   open: boolean
 }
 
-export default function DashboardNav({ user, role, open }: DashboardNavProps) {
+export default function AdminNav({ user, role, open }: AdminNavProps) {
   const router = useRouter()
   const pathname = usePathname()
   const [loading, setLoading] = useState(false)
-
-  // Get role-specific navigation
-  const navigation = getNavigationForRole(role)
 
   const handleLogout = async () => {
     setLoading(true)
@@ -98,7 +95,7 @@ export default function DashboardNav({ user, role, open }: DashboardNavProps) {
       </Box>
       <Divider sx={{ borderColor: 'rgba(255, 255, 255, 0.1)', mx: 1 }} />
       <List sx={{ px: 1, py: 1 }}>
-        {navigation.map((item) => (
+        {adminNavigation.map((item) => (
           <ListItem key={item.path} disablePadding>
             <ListItemButton
               component={Link}

@@ -49,11 +49,16 @@ export interface AuthValidationError {
 }
 
 /**
+ * User role type
+ */
+export type UserRole = 'user' | 'admin' | 'trader'
+
+/**
  * User profile type (extend as needed)
  */
 export interface UserProfile extends SupabaseUser {
   // Add custom profile fields here
-  role?: 'trader' | 'admin' | 'user'
+  role?: UserRole
 }
 
 /**

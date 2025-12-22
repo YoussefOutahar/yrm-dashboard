@@ -7,6 +7,7 @@ export type {
   AuthResponse,
   AuthValidationError,
   UserProfile,
+  UserRole,
   SessionData,
 } from './auth.types'
 

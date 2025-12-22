@@ -50,6 +50,37 @@ class ActivityLogService {
   }
 
   /**
+   * Get all activities across all users (admin only)
+   * Note: This method is deprecated. Use the API route /api/admin/activities instead
+   * which properly fetches user names using server-side admin access
+   * @param limit - Maximum number of activities to fetch (default: 100)
+   */
+  async getAllActivities(limit: number = 100): Promise<ActivityLogResponse> {
+    try {
+      const supabase = createClient()
+      const { data, error } = await supabase
+        .from(this.TABLE_NAME)
+        .select('*')
+        .order('timestamp', { ascending: false })
+        .limit(limit)
+
+      if (error) {
+        return { data: null, error }
+      }
+
+      // Convert timestamp strings to Date objects
+      const activities: Activity[] = (data || []).map(activity => ({
+        ...activity,
+        timestamp: new Date(activity.timestamp),
+      }))
+
+      return { data: activities, error: null }
+    } catch (error) {
+      return { data: null, error: error as Error }
+    }
+  }
+
+  /**
    * Add a new activity for a user
    * @param userId - The user's ID
    * @param request - Activity details (type and message)

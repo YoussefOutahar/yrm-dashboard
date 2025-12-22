@@ -136,6 +136,9 @@ class AuthService {
         password: credentials.password,
         options: {
           emailRedirectTo: credentials.emailRedirectTo,
+          data: {
+            role: 'user', // Default role assignment
+          },
         },
       })
 

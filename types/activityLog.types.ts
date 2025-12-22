@@ -13,6 +13,7 @@ export interface Activity {
   type: ActivityType
   message: string
   timestamp: Date
+  user_name?: string // Optional: populated for admin views
 }
 
 export interface ActivityLogResponse {
