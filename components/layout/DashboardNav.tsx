@@ -5,6 +5,8 @@ import { useRouter, usePathname } from 'next/navigation'
 import Link from 'next/link'
 import Image from 'next/image'
 import { createClient } from '@/lib/supabase/client'
+import { dashboardNavigation } from '@/config/navigation'
+import { APP_ROUTES } from '@/config/routes'
 import {
   Drawer,
   List,
@@ -16,9 +18,6 @@ import {
   Divider,
 } from '@mui/material'
 import {
-  Dashboard as DashboardIcon,
-  Person as PersonIcon,
-  AdminPanelSettings as AdminIcon,
   Logout as LogoutIcon,
 } from '@mui/icons-material'
 import type { User } from '@supabase/supabase-js'
@@ -40,15 +39,9 @@ export default function DashboardNav({ user, open }: DashboardNavProps) {
     setLoading(true)
     const supabase = createClient()
     await supabase.auth.signOut()
-    router.push('/auth')
+    router.push(APP_ROUTES.AUTH)
     router.refresh()
   }
-
-  const menuItems = [
-    { text: 'Dashboard', icon: <DashboardIcon />, path: '/dashboard' },
-    { text: 'Profile Settings', icon: <PersonIcon />, path: '/dashboard/profile' },
-    { text: 'Admin View', icon: <AdminIcon />, path: '/dashboard/admin' },
-  ]
 
   return (
     <Drawer
@@ -100,8 +93,8 @@ export default function DashboardNav({ user, open }: DashboardNavProps) {
       </Box>
       <Divider sx={{ borderColor: 'rgba(255, 255, 255, 0.1)', mx: 1 }} />
       <List sx={{ px: 1, py: 1 }}>
-        {menuItems.map((item) => (
-          <ListItem key={item.text} disablePadding>
+        {dashboardNavigation.map((item) => (
+          <ListItem key={item.path} disablePadding>
             <ListItemButton
               component={Link}
               href={item.path}
@@ -128,9 +121,9 @@ export default function DashboardNav({ user, open }: DashboardNavProps) {
                 minWidth: open ? 56 : 'auto',
                 justifyContent: 'center',
               }}>
-                {item.icon}
+                <item.icon />
               </ListItemIcon>
-              {open && <ListItemText primary={item.text} />}
+              {open && <ListItemText primary={item.title} />}
             </ListItemButton>
           </ListItem>
         ))}

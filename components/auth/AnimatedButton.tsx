@@ -62,11 +62,11 @@ export default function AnimatedButton({
       animate={getAnimationState()}
       whileHover={!loading && !disabled ? 'hover' : undefined}
       whileTap={!loading && !disabled ? 'tap' : undefined}
-      style={{ width: '100%', marginTop: '16px' }}
+      style={{ width: '100%', marginTop: '16px', borderRadius: '8px' }}
     >
       <Button
         {...props}
-        disabled={disabled || loading}
+        disabled={disabled}
         variant="contained"
         size="large"
         fullWidth
@@ -81,6 +81,7 @@ export default function AnimatedButton({
           fontSize: '1rem',
           py: 1.5,
           boxShadow: '0 0 10px rgba(0, 255, 0, 0.3)',
+          pointerEvents: loading ? 'none' : 'auto',
           '&:hover': {
             background: success
               ? 'linear-gradient(135deg, #00ff00 0%, #0dff92 100%)'

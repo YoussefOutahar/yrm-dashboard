@@ -67,6 +67,7 @@ export default function GlowCard({
       style={{
         perspective: '1000px',
         transformStyle: 'preserve-3d',
+        borderRadius: '16px',
       }}
     >
       <Paper

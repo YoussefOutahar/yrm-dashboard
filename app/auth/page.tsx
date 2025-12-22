@@ -4,11 +4,13 @@ import { useState } from 'react'
 import { useRouter } from 'next/navigation'
 import { createClient } from '@/lib/supabase/client'
 import { useActivityLog } from '@/contexts/ActivityLogContext'
+import { APP_ROUTES } from '@/config/routes'
 import { Box, Container, Typography, Alert, useMediaQuery } from '@mui/material'
 import { motion, AnimatePresence } from 'framer-motion'
 import GlowCard from '@/components/auth/GlowCard'
 import AnimatedInput from '@/components/auth/AnimatedInput'
 import AnimatedButton from '@/components/auth/AnimatedButton'
+import DarkVeil from '@/components/DarkVeil'
 
 export default function AuthPage() {
   const [isSignUp, setIsSignUp] = useState(false)
@@ -48,7 +50,7 @@ export default function AuthPage() {
       setLoading(false)
     } else {
       addActivity('login', `User logged in: ${email}`)
-      router.push('/dashboard')
+      router.push(APP_ROUTES.DASHBOARD.ROOT)
       router.refresh()
     }
   }
@@ -129,6 +131,30 @@ export default function AuthPage() {
         overflow: 'hidden',
       }}
     >
+      <Box
+        sx={{
+          position: 'fixed',
+          top: 0,
+          left: 0,
+          right: 0,
+          bottom: 0,
+          width: '100vw',
+          height: '100vh',
+          zIndex: 1,
+          overflow: 'hidden',
+          display: 'block',
+        }}
+      >
+        <DarkVeil
+          hueShift={120}
+          noiseIntensity={0.05}
+          scanlineIntensity={0}
+          speed={0.7}
+          scanlineFrequency={0}
+          warpAmount={0}
+          resolutionScale={1}
+        />
+      </Box>
       <Container maxWidth="sm" sx={{ position: 'relative', zIndex: 2 }}>
         <motion.div
           variants={containerVariants}

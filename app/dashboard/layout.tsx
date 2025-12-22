@@ -1,6 +1,7 @@
 import { redirect } from 'next/navigation'
 import { createClient } from '@/lib/supabase/server'
-import DashboardLayoutClient from '@/components/DashboardLayoutClient'
+import { APP_ROUTES } from '@/config/routes'
+import DashboardShell from '@/components/layout/DashboardShell'
 
 export default async function DashboardLayout({
   children,
@@ -14,8 +15,8 @@ export default async function DashboardLayout({
   } = await supabase.auth.getUser()
 
   if (!user) {
-    redirect('/auth')
+    redirect(APP_ROUTES.AUTH)
   }
 
-  return <DashboardLayoutClient user={user}>{children}</DashboardLayoutClient>
+  return <DashboardShell user={user}>{children}</DashboardShell>
 }
