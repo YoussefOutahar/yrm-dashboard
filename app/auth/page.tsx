@@ -191,20 +191,26 @@ export default function AuthPage() {
                 <Box
                   component="form"
                   onSubmit={isSignUp ? handleSignup : handleLogin}
+                  action="#"
+                  method="POST"
                   sx={{ display: 'flex', flexDirection: 'column' }}
                 >
                   <AnimatedInput
                     label="Email"
                     type="email"
+                    name="username"
+                    id="username"
                     value={email}
                     onChange={(e) => setEmail(e.target.value)}
                     required
-                    autoComplete="email"
+                    autoComplete="username"
                   />
 
                   <AnimatedInput
                     label="Password"
                     type="password"
+                    name="password"
+                    id="password"
                     value={password}
                     onChange={(e) => setPassword(e.target.value)}
                     required
@@ -222,6 +228,8 @@ export default function AuthPage() {
                       <AnimatedInput
                         label="Confirm Password"
                         type="password"
+                        name="confirm-password"
+                        id="confirm-password"
                         value={confirmPassword}
                         onChange={(e) => setConfirmPassword(e.target.value)}
                         required

@@ -1,8 +1,9 @@
 'use client'
 
 import { motion } from 'framer-motion'
-import { TextField, TextFieldProps, FormHelperText } from '@mui/material'
+import { TextField, TextFieldProps, FormHelperText, IconButton, InputAdornment } from '@mui/material'
 import { useState } from 'react'
+import { Visibility, VisibilityOff } from '@mui/icons-material'
 
 interface AnimatedInputProps extends Omit<TextFieldProps, 'variant'> {
   label: string
@@ -18,9 +19,11 @@ export default function AnimatedInput({
   showSuccessState = false,
   onFocus,
   onBlur,
+  type,
   ...props
 }: AnimatedInputProps) {
   const [isFocused, setIsFocused] = useState(false)
+  const [showPassword, setShowPassword] = useState(false)
 
   const handleFocus = (e: React.FocusEvent<HTMLInputElement>) => {
     setIsFocused(true)
@@ -30,6 +33,10 @@ export default function AnimatedInput({
   const handleBlur = (e: React.FocusEvent<HTMLInputElement>) => {
     setIsFocused(false)
     onBlur?.(e)
+  }
+
+  const handleTogglePasswordVisibility = () => {
+    setShowPassword(!showPassword)
   }
 
   const shakeAnimation = error
@@ -69,12 +76,40 @@ export default function AnimatedInput({
       >
         <TextField
           {...props}
+          type={type === 'password' && showPassword ? 'text' : type}
           label={label}
           fullWidth
           variant="outlined"
           error={error}
           onFocus={handleFocus}
           onBlur={handleBlur}
+          slotProps={{
+            htmlInput: {
+              autoComplete: props.autoComplete,
+            },
+          }}
+          InputProps={{
+            ...props.InputProps,
+            endAdornment: type === 'password' ? (
+              <InputAdornment position="end">
+                <IconButton
+                  onClick={handleTogglePasswordVisibility}
+                  onMouseDown={(e) => e.preventDefault()}
+                  edge="end"
+                  sx={{
+                    color: isFocused ? '#00ff00' : 'text.secondary',
+                    transition: 'color 0.3s ease',
+                    '&:hover': {
+                      color: '#00ff00',
+                      backgroundColor: 'rgba(0, 255, 0, 0.1)',
+                    },
+                  }}
+                >
+                  {showPassword ? <VisibilityOff /> : <Visibility />}
+                </IconButton>
+              </InputAdornment>
+            ) : props.InputProps?.endAdornment,
+          }}
           sx={{
             '& .MuiOutlinedInput-root': {
               transition: 'all 0.3s ease',
