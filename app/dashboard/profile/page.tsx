@@ -1,9 +1,7 @@
 'use client'
 
 import { useState, useEffect } from 'react'
-import { useProfile } from '@/hooks'
-import { useAuth } from '@/hooks'
-import { useActivityLog } from '@/contexts/ActivityLogContext'
+import { useProfile, useAuth, useActivityLog } from '@/hooks'
 import {
   Box,
   Typography,
@@ -57,7 +55,6 @@ export default function ProfilePage() {
   const [showNewPassword, setShowNewPassword] = useState(false)
   const [showConfirmPassword, setShowConfirmPassword] = useState(false)
   const [success, setSuccess] = useState(false)
-  const { addActivity } = useActivityLog()
   const { signOut } = useAuth()
 
   const {
@@ -68,12 +65,11 @@ export default function ProfilePage() {
     updateMetadata,
     updatePassword,
     clearError,
-  } = useProfile({
-    onUpdate: () => {
-      setSuccess(true)
-      addActivity('profile_update', 'Profile updated')
-      setTimeout(() => setSuccess(false), 3000)
-    },
+  } = useProfile()
+
+  const { addActivity } = useActivityLog({
+    userId: profile?.id,
+    autoFetch: false,
   })
 
   // Form states
@@ -100,10 +96,15 @@ export default function ProfilePage() {
 
   const handleProfileUpdate = async (e: React.FormEvent) => {
     e.preventDefault()
-    await updateMetadata({
+    const result = await updateMetadata({
       full_name: fullName,
       avatar_url: avatarUrl,
     })
+    if (result?.success) {
+      setSuccess(true)
+      addActivity('profile_update', 'Profile updated')
+      setTimeout(() => setSuccess(false), 3000)
+    }
   }
 
   const handlePasswordUpdate = async (e: React.FormEvent) => {

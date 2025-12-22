@@ -2,7 +2,6 @@
 
 import { useState } from 'react'
 import { useAuth } from '@/hooks'
-import { useActivityLog } from '@/contexts/ActivityLogContext'
 import { APP_ROUTES } from '@/config/routes'
 import { Box, Container, Typography, Alert, useMediaQuery } from '@mui/material'
 import { motion, AnimatePresence } from 'framer-motion'
@@ -17,17 +16,11 @@ export default function AuthPage() {
   const [password, setPassword] = useState('')
   const [confirmPassword, setConfirmPassword] = useState('')
   const [success, setSuccess] = useState(false)
-  const { addActivity } = useActivityLog()
   const isMobile = useMediaQuery('(max-width: 640px)')
 
   const { signIn, signUp, loading, error, clearError } = useAuth({
     redirectOnSuccess: !isSignUp,
     redirectUrl: APP_ROUTES.DASHBOARD.ROOT,
-    onSuccess: (email) => {
-      if (!isSignUp) {
-        addActivity('login', `User logged in: ${email}`)
-      }
-    },
   })
 
   const handleModeToggle = () => {

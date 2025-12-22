@@ -29,3 +29,12 @@ export type {
   PriceChartResponse,
   PriceChartError,
 } from './priceChart.types'
+
+// Activity Log types
+export type {
+  Activity,
+  ActivityType,
+  ActivityLogResponse,
+  AddActivityRequest,
+  AddActivityResponse,
+} from './activityLog.types'

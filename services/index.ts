@@ -6,3 +6,6 @@ export { profileService } from './profile.service'
 
 // Price Chart service
 export { priceChartService } from './priceChart.service'
+
+// Activity Log service
+export { activityLogService } from './activityLog.service'

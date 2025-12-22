@@ -20,7 +20,7 @@ import {
   DialogActions,
   TextField,
 } from '@mui/material'
-import { useActivityLog } from '@/contexts/ActivityLogContext'
+import { useActivityLog, useProfile } from '@/hooks'
 
 interface User {
   id: string
@@ -44,7 +44,11 @@ export default function AdminPage() {
   const [selectedUser, setSelectedUser] = useState<User | null>(null)
   const [dialogOpen, setDialogOpen] = useState(false)
   const [newBalance, setNewBalance] = useState('')
-  const { addActivity } = useActivityLog()
+  const { profile } = useProfile()
+  const { addActivity } = useActivityLog({
+    userId: profile?.id,
+    autoFetch: false,
+  })
 
   const handleOpenDialog = (user: User) => {
     setSelectedUser(user)

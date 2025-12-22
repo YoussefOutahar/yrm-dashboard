@@ -6,3 +6,6 @@ export { useProfile } from './useProfile'
 
 // Price Chart hooks
 export { usePriceChart } from './usePriceChart'
+
+// Activity Log hooks
+export { useActivityLog } from './useActivityLog'

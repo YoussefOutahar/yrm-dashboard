@@ -1,7 +1,8 @@
 'use client'
 
-import { Card, CardContent, Typography, Box, Chip } from '@mui/material'
-import { useActivityLog } from '@/contexts/ActivityLogContext'
+import { Card, CardContent, Typography, Box, Chip, CircularProgress } from '@mui/material'
+import { useActivityLog } from '@/hooks'
+import { useProfile } from '@/hooks'
 import { format } from 'date-fns'
 import {
   Login,
@@ -46,7 +47,12 @@ const getActivityColor = (type: string) => {
 }
 
 export default function ActivityLog() {
-  const { activities } = useActivityLog()
+  const { profile } = useProfile()
+  const { activities, loading } = useActivityLog({
+    userId: profile?.id,
+    limit: 5,
+    autoFetch: true,
+  })
 
   return (
     <Card>
@@ -55,7 +61,11 @@ export default function ActivityLog() {
           Recent Activity
         </Typography>
 
-        {activities.length === 0 ? (
+        {loading ? (
+          <Box sx={{ display: 'flex', justifyContent: 'center', py: 3 }}>
+            <CircularProgress size={24} />
+          </Box>
+        ) : activities.length === 0 ? (
           <Typography variant="body2" color="text.secondary">
             No recent activity
           </Typography>

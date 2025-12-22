@@ -5,15 +5,18 @@ import { Box, Grid } from '@mui/material'
 import PriceChart from '@/components/PriceChart'
 import TraderOverview from '@/components/TraderOverview'
 import ActivityLog from '@/components/ActivityLog'
-import { usePriceChart } from '@/hooks'
-import { useActivityLog } from '@/contexts/ActivityLogContext'
+import { usePriceChart, useActivityLog, useProfile } from '@/hooks'
 import { subDays, format } from 'date-fns'
 
 export default function DashboardPage() {
   const [ticker, setTicker] = useState('AAPL')
   const [startDate, setStartDate] = useState<Date | null>(subDays(new Date(), 30))
   const [endDate, setEndDate] = useState<Date | null>(new Date())
-  const { addActivity } = useActivityLog()
+  const { profile } = useProfile()
+  const { addActivity } = useActivityLog({
+    userId: profile?.id,
+    autoFetch: false,
+  })
 
   // Use the price chart hook with current state
   const { data, loading, error } = usePriceChart({
