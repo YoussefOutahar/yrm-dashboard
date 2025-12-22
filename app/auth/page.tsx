@@ -1,8 +1,7 @@
 'use client'
 
 import { useState } from 'react'
-import { useRouter } from 'next/navigation'
-import { createClient } from '@/lib/supabase/client'
+import { useAuth } from '@/hooks'
 import { useActivityLog } from '@/contexts/ActivityLogContext'
 import { APP_ROUTES } from '@/config/routes'
 import { Box, Container, Typography, Alert, useMediaQuery } from '@mui/material'
@@ -17,16 +16,23 @@ export default function AuthPage() {
   const [email, setEmail] = useState('')
   const [password, setPassword] = useState('')
   const [confirmPassword, setConfirmPassword] = useState('')
-  const [loading, setLoading] = useState(false)
-  const [error, setError] = useState('')
   const [success, setSuccess] = useState(false)
-  const router = useRouter()
   const { addActivity } = useActivityLog()
   const isMobile = useMediaQuery('(max-width: 640px)')
 
+  const { signIn, signUp, loading, error, clearError } = useAuth({
+    redirectOnSuccess: !isSignUp,
+    redirectUrl: APP_ROUTES.DASHBOARD.ROOT,
+    onSuccess: (email) => {
+      if (!isSignUp) {
+        addActivity('login', `User logged in: ${email}`)
+      }
+    },
+  })
+
   const handleModeToggle = () => {
     setIsSignUp(!isSignUp)
-    setError('')
+    clearError()
     setSuccess(false)
     setEmail('')
     setPassword('')
@@ -35,60 +41,22 @@ export default function AuthPage() {
 
   const handleLogin = async (e: React.FormEvent) => {
     e.preventDefault()
-    setLoading(true)
-    setError('')
-
-    const supabase = createClient()
-
-    const { error } = await supabase.auth.signInWithPassword({
-      email,
-      password,
-    })
-
-    if (error) {
-      setError(error.message)
-      setLoading(false)
-    } else {
-      addActivity('login', `User logged in: ${email}`)
-      router.push(APP_ROUTES.DASHBOARD.ROOT)
-      router.refresh()
-    }
+    await signIn({ email, password })
   }
 
   const handleSignup = async (e: React.FormEvent) => {
     e.preventDefault()
-    setLoading(true)
-    setError('')
     setSuccess(false)
 
-    if (password !== confirmPassword) {
-      setError('Passwords do not match')
-      setLoading(false)
-      return
-    }
-
-    if (password.length < 6) {
-      setError('Password must be at least 6 characters')
-      setLoading(false)
-      return
-    }
-
-    const supabase = createClient()
-
-    const { error } = await supabase.auth.signUp({
+    const result = await signUp({
       email,
       password,
-      options: {
-        emailRedirectTo: `${window.location.origin}/auth/callback`,
-      },
+      confirmPassword,
+      emailRedirectTo: `${window.location.origin}/auth/callback`,
     })
 
-    if (error) {
-      setError(error.message)
-      setLoading(false)
-    } else {
+    if (result.success) {
       setSuccess(true)
-      setLoading(false)
       setTimeout(() => {
         setIsSignUp(false)
         setSuccess(false)
