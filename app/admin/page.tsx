@@ -85,17 +85,41 @@ function getActivityIcon(type: ActivityType) {
 function getActivityColor(type: ActivityType) {
   switch (type) {
     case 'login':
-      return 'success'
+      return {
+        bg: 'rgba(76, 175, 80, 0.15)',
+        text: '#4caf50',
+        border: 'rgba(76, 175, 80, 0.3)',
+      }
     case 'profile_update':
-      return 'info'
+      return {
+        bg: 'rgba(33, 150, 243, 0.15)',
+        text: '#42a5f5',
+        border: 'rgba(33, 150, 243, 0.3)',
+      }
     case 'admin_balance_adjustment':
-      return 'warning'
+      return {
+        bg: 'rgba(255, 152, 0, 0.15)',
+        text: '#ffa726',
+        border: 'rgba(255, 152, 0, 0.3)',
+      }
     case 'ticker_change':
-      return 'primary'
+      return {
+        bg: 'rgba(156, 39, 176, 0.15)',
+        text: '#ab47bc',
+        border: 'rgba(156, 39, 176, 0.3)',
+      }
     case 'date_filter_update':
-      return 'secondary'
+      return {
+        bg: 'rgba(96, 125, 139, 0.15)',
+        text: '#78909c',
+        border: 'rgba(96, 125, 139, 0.3)',
+      }
     default:
-      return 'default'
+      return {
+        bg: 'rgba(158, 158, 158, 0.15)',
+        text: '#9e9e9e',
+        border: 'rgba(158, 158, 158, 0.3)',
+      }
   }
 }
 
@@ -288,8 +312,16 @@ export default function AdminDashboardPage() {
                         icon={getActivityIcon(activity.type)}
                         label={formatActivityType(activity.type)}
                         size="small"
-                        color={getActivityColor(activity.type) as any}
-                        sx={{ height: 24 }}
+                        sx={{
+                          height: 24,
+                          fontWeight: 500,
+                          backgroundColor: getActivityColor(activity.type).bg,
+                          color: getActivityColor(activity.type).text,
+                          border: `1px solid ${getActivityColor(activity.type).border}`,
+                          '& .MuiChip-icon': {
+                            color: getActivityColor(activity.type).text,
+                          },
+                        }}
                       />
                     </Box>
                     <Typography variant="body2" color="text.secondary" sx={{ mb: 0.5 }}>

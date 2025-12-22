@@ -99,8 +99,8 @@ export default function DashboardNav({ user, role, open }: DashboardNavProps) {
       </Box>
       <Divider sx={{ borderColor: 'rgba(255, 255, 255, 0.1)', mx: 1 }} />
       <List sx={{ px: 1, py: 1 }}>
-        {navigation.map((item) => (
-          <ListItem key={item.path} disablePadding>
+        {navigation.map((item, index) => (
+          <ListItem key={`nav-${index}-${item.path}`} disablePadding>
             <ListItemButton
               component={item.disabled ? 'div' : Link}
               href={item.disabled ? undefined : item.path}

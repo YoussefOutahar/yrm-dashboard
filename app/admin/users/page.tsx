@@ -81,70 +81,168 @@ export default function UserManagementPage() {
   const getStatusColor = (status: string) => {
     switch (status) {
       case 'Active':
-        return 'success'
+        return {
+          bg: 'rgba(76, 175, 80, 0.15)',
+          text: '#4caf50',
+          border: 'rgba(76, 175, 80, 0.3)',
+        }
       case 'Suspended':
-        return 'error'
+        return {
+          bg: 'rgba(244, 67, 54, 0.15)',
+          text: '#ef5350',
+          border: 'rgba(244, 67, 54, 0.3)',
+        }
       case 'Pending':
-        return 'warning'
+        return {
+          bg: 'rgba(255, 193, 7, 0.15)',
+          text: '#ffca28',
+          border: 'rgba(255, 193, 7, 0.3)',
+        }
       default:
-        return 'default'
+        return {
+          bg: 'rgba(158, 158, 158, 0.15)',
+          text: '#9e9e9e',
+          border: 'rgba(158, 158, 158, 0.3)',
+        }
     }
   }
 
   const getAccountTypeColor = (type: string) => {
     switch (type) {
       case 'Elite':
-        return 'primary'
+        return {
+          bg: 'rgba(255, 215, 0, 0.15)',
+          text: '#ffd700',
+          border: 'rgba(255, 215, 0, 0.4)',
+        }
       case 'Pro':
-        return 'secondary'
+        return {
+          bg: 'rgba(138, 43, 226, 0.15)',
+          text: '#9370db',
+          border: 'rgba(138, 43, 226, 0.3)',
+        }
       case 'Standard':
-        return 'default'
+        return {
+          bg: 'rgba(96, 125, 139, 0.15)',
+          text: '#90a4ae',
+          border: 'rgba(96, 125, 139, 0.3)',
+        }
       default:
-        return 'default'
+        return {
+          bg: 'rgba(158, 158, 158, 0.15)',
+          text: '#9e9e9e',
+          border: 'rgba(158, 158, 158, 0.3)',
+        }
     }
   }
 
   return (
     <Box>
-      <Card sx={{ backgroundColor: 'rgba(26, 26, 26, 0.9)', borderRadius: '16px' }}>
-        <CardContent>
-          <TableContainer>
+      <Card
+        sx={{
+          backgroundColor: 'rgba(26, 26, 26, 0.9)',
+          borderRadius: '16px',
+          border: '1px solid rgba(255, 255, 255, 0.05)',
+          boxShadow: '0 8px 32px rgba(0, 0, 0, 0.4)',
+        }}
+      >
+        <CardContent sx={{ p: 3 }}>
+          <Box sx={{ mb: 3 }}>
+            <Typography variant="h5" fontWeight={600} sx={{ mb: 1 }}>
+              User Management
+            </Typography>
+            <Typography variant="body2" color="text.secondary">
+              Manage user accounts, balances, and permissions
+            </Typography>
+          </Box>
+
+          <TableContainer
+            sx={{
+              border: '1px solid rgba(255, 255, 255, 0.05)',
+              borderRadius: '12px',
+              backgroundColor: 'rgba(0, 0, 0, 0.2)',
+            }}
+          >
             <Table>
               <TableHead>
-                <TableRow>
-                  <TableCell>Name</TableCell>
-                  <TableCell>Account Type</TableCell>
-                  <TableCell>Status</TableCell>
-                  <TableCell align="right">Balance</TableCell>
-                  <TableCell align="center">Actions</TableCell>
+                <TableRow sx={{ backgroundColor: 'rgba(255, 255, 255, 0.02)' }}>
+                  <TableCell sx={{ fontWeight: 600, fontSize: '0.875rem', borderBottom: '2px solid rgba(255, 255, 255, 0.1)' }}>
+                    Name
+                  </TableCell>
+                  <TableCell sx={{ fontWeight: 600, fontSize: '0.875rem', borderBottom: '2px solid rgba(255, 255, 255, 0.1)' }}>
+                    Account Type
+                  </TableCell>
+                  <TableCell sx={{ fontWeight: 600, fontSize: '0.875rem', borderBottom: '2px solid rgba(255, 255, 255, 0.1)' }}>
+                    Status
+                  </TableCell>
+                  <TableCell align="right" sx={{ fontWeight: 600, fontSize: '0.875rem', borderBottom: '2px solid rgba(255, 255, 255, 0.1)' }}>
+                    Balance
+                  </TableCell>
+                  <TableCell align="center" sx={{ fontWeight: 600, fontSize: '0.875rem', borderBottom: '2px solid rgba(255, 255, 255, 0.1)' }}>
+                    Actions
+                  </TableCell>
                 </TableRow>
               </TableHead>
               <TableBody>
                 {users.map((user, index) => (
-                  <TableRow key={user.id || `user-${user.name}-${index}`} hover>
-                    <TableCell>{user.name}</TableCell>
-                    <TableCell>
+                  <TableRow
+                    key={`user-row-${index}`}
+                    sx={{
+                      '&:hover': {
+                        backgroundColor: 'rgba(255, 255, 255, 0.03)',
+                      },
+                      '&:last-child td': {
+                        borderBottom: 'none',
+                      },
+                    }}
+                  >
+                    <TableCell sx={{ borderBottom: '1px solid rgba(255, 255, 255, 0.05)', py: 2.5 }}>
+                      <Typography variant="body2" fontWeight={600}>
+                        {user.name}
+                      </Typography>
+                    </TableCell>
+                    <TableCell sx={{ borderBottom: '1px solid rgba(255, 255, 255, 0.05)', py: 2.5 }}>
                       <Chip
                         label={user.accountType}
                         size="small"
-                        color={getAccountTypeColor(user.accountType) as any}
+                        sx={{
+                          fontWeight: 600,
+                          backgroundColor: getAccountTypeColor(user.accountType).bg,
+                          color: getAccountTypeColor(user.accountType).text,
+                          border: `1px solid ${getAccountTypeColor(user.accountType).border}`,
+                        }}
                       />
                     </TableCell>
-                    <TableCell>
+                    <TableCell sx={{ borderBottom: '1px solid rgba(255, 255, 255, 0.05)', py: 2.5 }}>
                       <Chip
                         label={user.status}
                         size="small"
-                        color={getStatusColor(user.status) as any}
+                        sx={{
+                          fontWeight: 600,
+                          backgroundColor: getStatusColor(user.status).bg,
+                          color: getStatusColor(user.status).text,
+                          border: `1px solid ${getStatusColor(user.status).border}`,
+                        }}
                       />
                     </TableCell>
-                    <TableCell align="right">
-                      ${user.balance.toLocaleString()}
+                    <TableCell align="right" sx={{ borderBottom: '1px solid rgba(255, 255, 255, 0.05)', py: 2.5 }}>
+                      <Typography variant="body2" fontWeight={600} color="success.main">
+                        ${user.balance.toLocaleString()}
+                      </Typography>
                     </TableCell>
-                    <TableCell align="center">
+                    <TableCell align="center" sx={{ borderBottom: '1px solid rgba(255, 255, 255, 0.05)', py: 2.5 }}>
                       <Button
                         variant="outlined"
                         size="small"
                         onClick={() => handleOpenDialog(user)}
+                        sx={{
+                          borderRadius: '8px',
+                          textTransform: 'none',
+                          fontWeight: 500,
+                          '&:hover': {
+                            backgroundColor: 'rgba(255, 255, 255, 0.05)',
+                          },
+                        }}
                       >
                         Adjust Balance
                       </Button>
