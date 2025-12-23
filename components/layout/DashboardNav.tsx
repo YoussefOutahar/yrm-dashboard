@@ -45,7 +45,8 @@ export default function DashboardNav({ user, role, open }: DashboardNavProps) {
     setLoading(true)
     const supabase = createClient()
     await supabase.auth.signOut()
-    // AuthGuard will handle the redirect
+    // Redirect to auth page - proxy.ts will handle the rest
+    router.push(APP_ROUTES.AUTH)
   }
 
   return (
