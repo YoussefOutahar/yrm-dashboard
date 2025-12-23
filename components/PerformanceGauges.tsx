@@ -13,8 +13,8 @@ interface SemiCircleGaugeProps {
 }
 
 function SemiCircleGauge({ value, percentage, label, color, minLabel, maxLabel }: SemiCircleGaugeProps) {
-  const radius = 121
-  const strokeWidth = 29
+  const radius = 70
+  const strokeWidth = 16
   const normalizedRadius = radius - strokeWidth / 2
   const circumference = normalizedRadius * Math.PI // Half circle
   const strokeDashoffset = circumference - (percentage / 100) * circumference
