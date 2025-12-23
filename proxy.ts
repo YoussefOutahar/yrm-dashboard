@@ -27,14 +27,24 @@ export async function proxy(request: NextRequest) {
   const { data: { user } } = await supabase.auth.getUser()
   const pathname = request.nextUrl.pathname
 
-  // 3. Redirect authenticated users away from /auth
+  // 3. Handle home route - redirect based on auth status
+  if (pathname === '/') {
+    if (user) {
+      const role = getUserRole(user)
+      const redirectUrl = getDashboardRouteForRole(role)
+      return NextResponse.redirect(new URL(redirectUrl, request.url))
+    }
+    return NextResponse.redirect(new URL('/auth', request.url))
+  }
+
+  // 4. Redirect authenticated users away from /auth
   if (pathname === '/auth' && user) {
     const role = getUserRole(user)
     const redirectUrl = getDashboardRouteForRole(role)
     return NextResponse.redirect(new URL(redirectUrl, request.url))
   }
 
-  // 4. Protect /dashboard routes - regular users only
+  // 5. Protect /dashboard routes - regular users only
   if (pathname.startsWith('/dashboard')) {
     if (!user) {
       return NextResponse.redirect(new URL('/auth', request.url))
@@ -47,7 +57,7 @@ export async function proxy(request: NextRequest) {
     }
   }
 
-  // 5. Protect /admin routes - admins only
+  // 6. Protect /admin routes - admins only
   if (pathname.startsWith('/admin')) {
     if (!user) {
       return NextResponse.redirect(new URL('/auth', request.url))
@@ -65,8 +75,13 @@ export async function proxy(request: NextRequest) {
 
 export const config = {
   matcher: [
-    '/dashboard/:path*',
-    '/admin/:path*',
-    '/auth',
+    /*
+     * Match all request paths except:
+     * - _next/static (static files)
+     * - _next/image (image optimization files)
+     * - favicon.ico (favicon file)
+     * - public files (public directory)
+     */
+    '/((?!_next/static|_next/image|favicon.ico|.*\\.(?:svg|png|jpg|jpeg|gif|webp)$).*)',
   ],
 }
