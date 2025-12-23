@@ -1,4 +1,3 @@
-import axiosInstance from '@/config/axiosInstance'
 import type {
   PriceChartParams,
   PriceChartResponse,

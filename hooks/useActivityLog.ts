@@ -55,6 +55,28 @@ export function useActivityLog(options: UseActivityLogOptions = {}) {
   }, [userId, limit, onError])
 
   /**
+   * Fetch all activities across all users (admin only)
+   */
+  const fetchAllActivities = useCallback(async () => {
+    setLoading(true)
+    setError(null)
+
+    const { data, error: fetchError } = await activityLogService.getAllActivities(limit)
+
+    if (fetchError) {
+      const errorMessage = fetchError.message || 'Failed to fetch all activities'
+      setError(errorMessage)
+      setLoading(false)
+      onError?.(errorMessage)
+      return { success: false, error: errorMessage }
+    }
+
+    setActivities(data || [])
+    setLoading(false)
+    return { success: true, data }
+  }, [limit, onError])
+
+  /**
    * Add a new activity
    */
   const addActivity = useCallback(
@@ -120,6 +142,7 @@ export function useActivityLog(options: UseActivityLogOptions = {}) {
     error,
     addActivity,
     fetchActivities,
+    fetchAllActivities,
     refresh,
     clearError,
   }

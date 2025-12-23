@@ -24,6 +24,7 @@ import {
   CalendarToday as CalendarIcon,
 } from '@mui/icons-material'
 import type { Activity, ActivityType } from '@/types'
+import { useActivityLog } from '@/hooks'
 
 function getActivityIcon(type: ActivityType) {
   switch (type) {
@@ -112,36 +113,22 @@ function formatTimestamp(date: Date) {
 }
 
 export default function AdminActivityLogPage() {
-  const [activities, setActivities] = useState<Activity[]>([])
-  const [loading, setLoading] = useState(true)
   const [page, setPage] = useState(0)
   const [rowsPerPage, setRowsPerPage] = useState(25)
 
+  const {
+    activities,
+    loading,
+    error,
+    fetchAllActivities,
+  } = useActivityLog({
+    limit: 500,
+    autoFetch: false,
+  })
+
   useEffect(() => {
-    const fetchAllActivities = async () => {
-      setLoading(true)
-      try {
-        const response = await fetch('/api/admin/activities?limit=500')
-        const result = await response.json()
-
-        if (response.ok && result.data) {
-          // Convert timestamp strings back to Date objects
-          const activitiesWithDates = result.data.map((activity: any) => ({
-            ...activity,
-            timestamp: new Date(activity.timestamp),
-          }))
-          setActivities(activitiesWithDates)
-        } else {
-          console.error('Error fetching activities:', result.error)
-        }
-      } catch (error) {
-        console.error('Error fetching activities:', error)
-      }
-      setLoading(false)
-    }
-
     fetchAllActivities()
-  }, [])
+  }, [fetchAllActivities])
 
   const handleChangePage = (_event: unknown, newPage: number) => {
     setPage(newPage)
@@ -188,6 +175,12 @@ export default function AdminActivityLogPage() {
                   },
                 }}
               />
+            </Box>
+          ) : error ? (
+            <Box sx={{ display: 'flex', justifyContent: 'center', p: 8 }}>
+              <Typography variant="body1" color="error">
+                {error}
+              </Typography>
             </Box>
           ) : (
             <>
